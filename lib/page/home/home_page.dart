@@ -7,6 +7,7 @@ import 'package:flutter_bill/config/my_icons.dart';
 import 'package:flutter_bill/model/global_model.dart';
 import 'package:flutter_bill/page/chart/chart_page.dart';
 import 'package:flutter_bill/page/home/drawer_widget.dart';
+import 'package:flutter_bill/page/words/add_words_page.dart';
 import 'package:flutter_bill/page/words/words_page.dart';
 import 'package:flutter_bill/util/color_util.dart';
 import 'package:flutter_bill/util/provider_util.dart';
@@ -88,16 +89,22 @@ class _HomePageState extends State<HomePage> {
                   return IconButton(
                     icon: Icon(
                       Icons.add,
-                      size: 28,
+                      size: 30,
                       color: ColorUtil.getWhiteOrGrey(globalModel),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) {
+                          return AddWordsPage();
+                        }
+                      ));
+                    },
                   );
                 } else {
                   return IconButton(
                     icon: Icon(
                       Icons.search,
-                      size: 28,
+                      size: 30,
                       color: ColorUtil.getWhiteOrGrey(globalModel),
                     ),
                     onPressed: () {},

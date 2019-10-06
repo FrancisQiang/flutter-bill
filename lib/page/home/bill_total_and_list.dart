@@ -240,7 +240,7 @@ class _BillTotalAndListState extends State<BillTotalAndList> {
     if (_billBeanList == null) {
       return Container(
           decoration: BoxDecoration(
-            color: Colors.grey[100],
+            color: Colors.transparent,
           ),
           height: ScreenUtil.getInstance().setHeight(1400),
           child: Consumer<BillModel>(
@@ -281,7 +281,7 @@ class _BillTotalAndListState extends State<BillTotalAndList> {
     } else {
       return Container(
           decoration: BoxDecoration(
-            color: Colors.grey[100],
+            color: Colors.transparent,
           ),
           height: ScreenUtil.getInstance().setHeight(1400),
           child: Consumer<BillModel>(
