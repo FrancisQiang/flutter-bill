@@ -84,14 +84,25 @@ class _HomePageState extends State<HomePage> {
           actions: <Widget>[
             Consumer<GlobalModel>(
               builder: (context, globalModel, child) {
-                return IconButton(
-                  icon: Icon(
-                    Icons.search,
-                    size: 28,
-                    color: ColorUtil.getWhiteOrGrey(globalModel),
-                  ),
-                  onPressed: () {},
-                );
+                if (_currentIndex == 2) {
+                  return IconButton(
+                    icon: Icon(
+                      Icons.add,
+                      size: 28,
+                      color: ColorUtil.getWhiteOrGrey(globalModel),
+                    ),
+                    onPressed: () {},
+                  );
+                } else {
+                  return IconButton(
+                    icon: Icon(
+                      Icons.search,
+                      size: 28,
+                      color: ColorUtil.getWhiteOrGrey(globalModel),
+                    ),
+                    onPressed: () {},
+                  );
+                }
               },
             )
           ]
