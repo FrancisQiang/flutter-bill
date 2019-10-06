@@ -280,10 +280,11 @@ class _BillTotalAndListState extends State<BillTotalAndList> {
           ));
     } else {
       return Container(
+        margin: EdgeInsets.only(top: ScreenUtil.getInstance().setHeight(20)),
           decoration: BoxDecoration(
             color: Colors.transparent,
           ),
-          height: ScreenUtil.getInstance().setHeight(1400),
+          height: ScreenUtil.getInstance().setHeight(1385),
           child: Consumer<BillModel>(
             builder: (context, billModel, child) {
               return ListView.builder(

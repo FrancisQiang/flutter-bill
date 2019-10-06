@@ -94,6 +94,7 @@ class BillBeanItem extends StatelessWidget {
                       height: itemHeight - 10,
                       width: width - ScreenUtil.getInstance().setWidth(40),
                       child: Card(
+                        elevation: 2.0,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(
                                 Radius.circular(20.0))),

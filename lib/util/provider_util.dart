@@ -6,7 +6,6 @@ import 'package:flutter_bill/model/home_page_model.dart';
 import 'package:flutter_bill/model/theme_page_model.dart';
 import 'package:flutter_bill/page/bill_detail/bill_detail_page.dart';
 import 'package:flutter_bill/page/home/home_page.dart';
-import 'package:flutter_bill/page/image_picker/avatar_page.dart';
 import 'package:flutter_bill/page/theme_page/theme_page.dart';
 import 'package:provider/provider.dart';
 import '../main.dart';
@@ -88,6 +87,8 @@ class ProviderUtil {
       child: BillDetailPage(index: index, edit: edit, billBean: billBean, icon: icon, name: name, type: type, heroTag: heroTag,),
     );
   }
+
+
 
 
 }
