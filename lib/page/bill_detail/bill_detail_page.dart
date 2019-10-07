@@ -9,6 +9,7 @@ import 'package:flutter_bill/util/color_util.dart';
 import 'package:flutter_bill/util/string_util.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class BillDetailPage extends StatefulWidget {
@@ -101,14 +102,21 @@ class _BillDetailPageState extends State<BillDetailPage> {
   Widget _getBody(BuildContext context) {
     return Container(
       color: Theme.of(context).primaryColorLight.withOpacity(0.5),
-      child: Column(
+      child: Stack(
         children: <Widget>[
-          _getIconRow(context),
-          _getDateRow(context),
-          _getRemarkAndMoney(context),
-          _getCalculator(context)
+          Column(
+            children: <Widget>[
+              _getIconRow(context),
+              _getDateRow(context),
+              _getRemarkAndMoney(context),
+            ],
+          ),
+          Positioned(
+            bottom: 0,
+            child: _getCalculator(context),
+          )
         ],
-      ),
+      )
     );
   }
 
@@ -182,13 +190,12 @@ class _BillDetailPageState extends State<BillDetailPage> {
 
   Widget _getCalculator(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: ScreenUtil.getInstance().setHeight(200)),
       color: Colors.transparent,
       child: Row(
         children: <Widget>[
           Container(
               width: ScreenUtil.getInstance().setWidth(810),
-              height: ScreenUtil.getInstance().setHeight(920),
+              height: ScreenUtil.getInstance().setHeight(1000),
               child: Wrap(
                 children: <Widget>[
                   _getCommonCalculatorButton(
@@ -240,7 +247,7 @@ class _BillDetailPageState extends State<BillDetailPage> {
               )),
           Container(
             width: ScreenUtil.getInstance().setWidth(270),
-            height: ScreenUtil.getInstance().setHeight(920),
+            height: ScreenUtil.getInstance().setHeight(1000),
             child: Column(
               children: <Widget>[
                 _getCommonCalculatorButton(
@@ -278,9 +285,12 @@ class _BillDetailPageState extends State<BillDetailPage> {
       bool isDelete = false,
       Color color = Colors.white}) {
     return Container(
-      margin: EdgeInsets.all(ScreenUtil().setWidth(10)),
+      margin: EdgeInsets.symmetric(
+        horizontal: ScreenUtil.getInstance().setWidth(10),
+        vertical: ScreenUtil.getInstance().setHeight(10),
+      ),
       height:
-          isSave ? ScreenUtil().setHeight(660) : ScreenUtil().setHeight(210),
+          isSave ? ScreenUtil().setHeight(720) : ScreenUtil().setHeight(240),
       width: isZero ? ScreenUtil().setWidth(520) : ScreenUtil().setWidth(250),
       child: ClipRRect(
           borderRadius: BorderRadius.all(Radius.circular(8.0)),
@@ -291,15 +301,31 @@ class _BillDetailPageState extends State<BillDetailPage> {
                 if (isSave) {
                   _saveBillBean(billModel);
                 } else if (isDelete) {
-                  setState(() {
-                    _money = _money.substring(0, _money.length - 1);
-                  });
+                  if (_money.length <= 1) {
+                    setState(() {
+                      _money = "0.0";
+                    });
+                  } else {
+                    setState(() {
+                      _money = _money.substring(0, _money.length - 1);
+                    });
+                  }
                 } else {
                   if (content != null) {
                     if (_money == '0.0') {
                       setState(() {
                         _money = content;
                       });
+                    } else if (int.parse(_money) >= 99999) {
+                      Fluttertoast.showToast(
+                          msg: "Why are you so rich?",
+                          toastLength: Toast.LENGTH_LONG,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIos: 1,
+                          backgroundColor: Colors.grey,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+                      return;
                     } else {
                       setState(() {
                         _money += content;
