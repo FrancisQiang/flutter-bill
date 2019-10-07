@@ -673,8 +673,16 @@ class ChartPageState extends State<ChartPage> {
                             } else if (value == 4999) {
                               return '5k';
                             } else if (value == 9999) {
-                              return '10K';
-                            } else {
+                              return '1w';
+                            } else if (value == 49999) {
+                              return '5w';
+                            } else if (value == 99999) {
+                              return '10w';
+                            } else if (value == 499999) {
+                              return '50w';
+                            } else if (value == 999999) {
+                              return '100w';
+                            }else {
                               return '';
                             }
                           },
@@ -769,6 +777,8 @@ class ChartPageState extends State<ChartPage> {
                               switch (value.toInt()) {
                                 case 0:
                                   return '0';
+                                case 100:
+                                  return '100';
                                 case 500:
                                   return '500';
                                 case 1000:
@@ -777,6 +787,8 @@ class ChartPageState extends State<ChartPage> {
                                   return '2k';
                                 case 5000:
                                   return '5k';
+                                case 10000:
+                                  return '1w';
                               }
                               return '';
                             },
@@ -805,7 +817,6 @@ class ChartPageState extends State<ChartPage> {
                         minX: 0,
                         maxX: 31,
                         minY: 0,
-                        maxY: 5000,
                         lineBarsData: lineList,
                       ),
                     ),
@@ -843,26 +854,24 @@ class ChartPageState extends State<ChartPage> {
               SizedBox(
                 height: ScreenUtil.getInstance().setHeight(30),
               ),
-              Expanded(
-                child: Builder(builder: (context) {
-                  if (pieMap.isNotEmpty) {
-                    return pie.PieChart(
-                      dataMap: pieMap,
-                      //Required parameter
-                      legendFontColor: Colors.blueGrey[900],
-                      legendFontSize: 12.0,
-                      legendFontWeight: FontWeight.w500,
-                      chartRadius: ScreenUtil.getInstance().setWidth(520),
-                      showChartValuesInPercentage: true,
-                      showChartValues: true,
-                      chartValuesColor: Colors.black54,
-                      showLegends: true,
-                    );
-                  } else {
-                    return SizedBox();
-                  }
-                })
-              ),
+              Expanded(child: Builder(builder: (context) {
+                if (pieMap.isNotEmpty) {
+                  return pie.PieChart(
+                    dataMap: pieMap,
+                    //Required parameter
+                    legendFontColor: Colors.blueGrey[900],
+                    legendFontSize: 12.0,
+                    legendFontWeight: FontWeight.w500,
+                    chartRadius: ScreenUtil.getInstance().setWidth(520),
+                    showChartValuesInPercentage: true,
+                    showChartValues: true,
+                    chartValuesColor: Colors.black54,
+                    showLegends: true,
+                  );
+                } else {
+                  return SizedBox();
+                }
+              })),
               SizedBox(
                 height: ScreenUtil.getInstance().setHeight(10),
               ),
@@ -918,136 +927,144 @@ class ChartPageState extends State<ChartPage> {
                 ),
               ),
               Container(
-                margin: const EdgeInsets.only(top: 12),
-                padding: const EdgeInsets.only(top: 10),
-                color: Colors.transparent,
-                child: Builder(
-                  builder: (context) {
-                    if (sortBillBeanList.isEmpty || sortBillBeanList == null) {
-                      return Container(
-                        alignment: Alignment.center,
-                        height: ScreenUtil.getInstance().setHeight(500),
-                        width: ScreenUtil.getInstance().setWidth(1080),
-                        child: Text(
-                          'Let''s go and keep an account',
-                          style: TextStyle(
-                            fontFamily: 'lobster',
-                            fontSize: 18.0,
-                            letterSpacing: 1.0,
-                            color: Colors.black54
+                  margin: const EdgeInsets.only(top: 12),
+                  padding: const EdgeInsets.only(top: 10),
+                  color: Colors.transparent,
+                  child: Builder(
+                    builder: (context) {
+                      if (sortBillBeanList.isEmpty ||
+                          sortBillBeanList == null) {
+                        return Container(
+                          alignment: Alignment.center,
+                          height: ScreenUtil.getInstance().setHeight(500),
+                          width: ScreenUtil.getInstance().setWidth(1080),
+                          child: Text(
+                            'Let' 's go and keep an account',
+                            style: TextStyle(
+                                fontFamily: 'lobster',
+                                fontSize: 18.0,
+                                letterSpacing: 1.0,
+                                color: Colors.black54),
                           ),
-                        ),
-                      );
-                    } else {
-                      return Column(
-                        children: List.generate(sortBillBeanList.length, (index) {
-                          return Card(
-                            elevation: 8.0,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(15)),
-                                color: Colors.white,
+                        );
+                      } else {
+                        return Column(
+                          children:
+                              List.generate(sortBillBeanList.length, (index) {
+                            return Card(
+                              margin: EdgeInsets.symmetric(
+                                horizontal: ScreenUtil.getInstance().setWidth(20),
+                                vertical: ScreenUtil.getInstance().setHeight(20)
                               ),
-                              height: ScreenUtil.getInstance().setHeight(250),
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
-                                    height: ScreenUtil.getInstance().setHeight(200),
-                                    width: ScreenUtil.getInstance().setHeight(200),
-                                    margin: const EdgeInsets.only(left: 20),
-                                    decoration: BoxDecoration(
-                                        color: MyConst.iconColorList[index],
-                                        shape: BoxShape.circle),
-                                    child: Icon(
-                                      IconData(
-                                          _iconDataMap[sortBillBeanList[index].name],
-                                          fontFamily: MyConst.ICON_FAMILY),
-                                      color: Colors.white70,
-                                      size: 25,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(25))
+                              ),
+                              color: Colors.white,
+                              elevation: 8.0,
+                              child: Container(
+                                height: ScreenUtil.getInstance().setHeight(250),
+                                child: Row(
+                                  children: <Widget>[
+                                    Container(
+                                      height: ScreenUtil.getInstance()
+                                          .setHeight(200),
+                                      width: ScreenUtil.getInstance()
+                                          .setHeight(200),
+                                      margin: EdgeInsets.only(left: ScreenUtil.getInstance().setWidth(40)),
+                                      decoration: BoxDecoration(
+                                          color: MyConst.iconColorList[index],
+                                          shape: BoxShape.circle),
+                                      child: Icon(
+                                        IconData(
+                                            _iconDataMap[
+                                                sortBillBeanList[index].name],
+                                            fontFamily: MyConst.ICON_FAMILY),
+                                        color: Colors.white70,
+                                        size: 25,
+                                      ),
                                     ),
-                                  ),
-                                  Container(
-                                    width: ScreenUtil.getInstance().setWidth(650),
-                                    alignment: Alignment.centerLeft,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Container(
+                                    Container(
+                                      width: ScreenUtil.getInstance()
+                                          .setWidth(600),
+                                      alignment: Alignment.centerLeft,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Container(
+                                              margin: EdgeInsets.only(
+                                                  left: ScreenUtil.getInstance().setWidth(30),
+                                                  top: ScreenUtil.getInstance()
+                                                      .setHeight(60)),
+                                              child:
+                                                  Text.rich(TextSpan(children: [
+                                                TextSpan(
+                                                    text:
+                                                        '${sortBillBeanList[index].name}  ',
+                                                    style: TextStyle(
+                                                        color: Colors.black87,
+                                                        letterSpacing: 0.5,
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                            FontWeight.w400)),
+                                                TextSpan(
+                                                    text:
+                                                        '${(sortBillBeanList[index].money / totalExpense * 100).toStringAsFixed(1)}%',
+                                                    style: TextStyle(
+                                                        color: Colors.black54,
+                                                        letterSpacing: 0.5,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        fontSize: 14))
+                                              ]))),
+                                          Container(
+                                            width: ScreenUtil.getInstance()
+                                                .setWidth(
+                                                    sortBillBeanList[index]
+                                                            .money /
+                                                        totalExpense *
+                                                        500),
+                                            height: 10,
                                             margin: EdgeInsets.only(
-                                                left: 20,
-                                                top: ScreenUtil.getInstance()
-                                                    .setHeight(60)),
-                                            child: Text.rich(TextSpan(children: [
-                                              TextSpan(
-                                                  text:
-                                                  '${sortBillBeanList[index].name}  ',
-                                                  style: TextStyle(
-                                                      color: Colors.black87,
-                                                      letterSpacing: 0.5,
-                                                      fontSize: 14,
-                                                      fontWeight: FontWeight.w400)),
-                                              TextSpan(
-                                                  text:
-                                                  '${(sortBillBeanList[index].money / totalExpense * 100).toStringAsFixed(1)}%',
-                                                  style: TextStyle(
-                                                      color: Colors.black54,
-                                                      letterSpacing: 0.5,
-                                                      fontWeight: FontWeight.w400,
-                                                      fontSize: 14))
-                                            ]))),
-                                        Container(
-                                          width: ScreenUtil.getInstance().setWidth(
-                                              sortBillBeanList[index].money /
-                                                  totalExpense *
-                                                  500),
-                                          height: 10,
-                                          margin:
-                                          const EdgeInsets.only(left: 20, top: 5),
-                                          decoration: BoxDecoration(
-                                            color: ColorUtil.getDark(
-                                                Theme.of(context).primaryColor,
-                                                level: 10),
-                                            borderRadius:
-                                            BorderRadius.all(Radius.circular(25.0)),
+                                                left: ScreenUtil.getInstance().setWidth(30), top: 5),
+                                            decoration: BoxDecoration(
+                                              color: ColorUtil.getDark(
+                                                  Theme.of(context)
+                                                      .primaryColor,
+                                                  level: 10),
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(25.0)),
+                                            ),
                                           ),
+                                        ],
+                                      ),
+                                    ),
+                                    Container(
+                                      height: ScreenUtil.getInstance().setHeight(180),
+                                      margin: EdgeInsets.only(
+                                          top: ScreenUtil.getInstance()
+                                              .setHeight(100)),
+                                      child: Text(
+                                        '${sortBillBeanList[index].money}',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            letterSpacing: 0.8,
+                                            fontWeight: FontWeight.w100,
+                                            fontSize: 14,
+                                            fontFamily: 'lobster',
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(25.0)),
-                                    ),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Container(
-                                          margin: EdgeInsets.only(
-                                              top: ScreenUtil.getInstance()
-                                                  .setHeight(90)),
-                                          child: Text(
-                                            '${sortBillBeanList[index].money}',
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                letterSpacing: 0.8,
-                                                fontWeight: FontWeight.w100,
-                                                fontSize: 14,
-                                                fontFamily: 'lobster'),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ],
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
-                            ),
-                          );
-                        }),
-                      );
-                    }
-                  },
-                )
-              )
+                            );
+                          }),
+                        );
+                      }
+                    },
+                  ))
             ],
           );
         }),
