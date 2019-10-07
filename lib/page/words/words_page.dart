@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bill/api/api.dart';
 import 'package:flutter_bill/bean/comment_bean.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_bill/component/loading/loading_widget.dart';
 import 'package:flutter_bill/model/words_wall_model.dart';
 import 'package:flutter_bill/util/provider_util.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 class WordsPage extends StatelessWidget {
@@ -52,12 +54,21 @@ class WordsPage extends StatelessWidget {
                                 ),
                                 height: ScreenUtil.getInstance().setWidth(180),
                                 width: ScreenUtil.getInstance().setWidth(180),
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        image: NetworkImage(Api.BASE_URL + "/" + commentBean.avatar),
-                                        fit: BoxFit.cover
-                                    )
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.all(Radius.circular(100)),
+                                  child: CachedNetworkImage(
+                                    fit: BoxFit.cover,
+                                    imageUrl: Api.BASE_URL + "/" + commentBean.avatar,
+                                    placeholder: (context, url) =>
+                                        SpinKitPumpingHeart(
+                                          color: Theme.of(context).primaryColor,
+                                          size: 60,
+                                          duration: Duration(milliseconds: 2000),
+                                        ),
+                                    errorWidget:
+                                        (context, url, error) =>
+                                        Icon(Icons.error),
+                                  ),
                                 ),
                               ),
                               Container(
