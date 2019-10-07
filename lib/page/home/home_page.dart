@@ -122,7 +122,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           HomeBody(),
           ProviderUtil.getBillModelPage(ChartPage()),
-          WordsPage()
+          ProviderUtil.getWordsWallPage(WordsPage())
         ],
       ),
       bottomNavigationBar: _getBottom(context),

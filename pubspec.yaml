@@ -69,10 +69,12 @@ dependencies:
   image_picker: ^0.6.0+16
   # 自定义形状
   flutter_custom_clippers: ^1.0.4
-  #图片裁剪
+  # 图片裁剪
   image_crop: ^0.3.1
-  #权限申请
+  # 权限申请
   permission_handler: ^3.2.0
+  # loading加载
+  flutter_spinkit: ^4.0.0
 
 dev_dependencies:
   flutter_test:

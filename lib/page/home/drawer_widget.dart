@@ -10,6 +10,7 @@ import 'package:flutter_bill/page/user/user_page.dart';
 import 'package:flutter_bill/util/navigator_util.dart';
 import 'package:flutter_bill/util/provider_util.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 class DrawerWidget extends StatelessWidget {
@@ -54,16 +55,11 @@ class DrawerWidget extends StatelessWidget {
                                             fit: BoxFit.cover,
                                             imageUrl: snapshotString.data,
                                             placeholder: (context, url) =>
-                                                new Container(
-                                              alignment: Alignment.center,
-                                              child: CircularProgressIndicator(
-                                                valueColor:
-                                                    AlwaysStoppedAnimation<
-                                                            Color>(
-                                                        Theme.of(context)
-                                                            .primaryColor),
-                                              ),
-                                            ),
+                                                SpinKitPumpingHeart(
+                                                  color: Theme.of(context).primaryColor,
+                                                  size: 60,
+                                                  duration: Duration(milliseconds: 2000),
+                                                ),
                                             errorWidget:
                                                 (context, url, error) =>
                                                     Icon(Icons.error),

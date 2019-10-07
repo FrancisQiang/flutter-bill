@@ -12,6 +12,7 @@ import 'package:flutter_bill/util/api_method_util.dart';
 import 'package:flutter_bill/util/shared_util.dart';
 import 'package:flutter_easyrefresh/bezier_bounce_footer.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 class NetImageSettingPage extends StatefulWidget {
@@ -90,10 +91,10 @@ class _NetImageSettingPageState extends State<NetImageSettingPage> {
                           fit: BoxFit.cover,
                           placeholder: (context, url) => new Container(
                             alignment: Alignment.center,
-                            child: CircularProgressIndicator(
-                              valueColor:
-                              AlwaysStoppedAnimation<Color>(
-                                  Theme.of(context).primaryColor),
+                            child: SpinKitPumpingHeart(
+                              color: Theme.of(context).primaryColor,
+                              size: 60,
+                              duration: Duration(milliseconds: 2000),
                             ),
                           ),
                           errorWidget: (context, url, error) => new Icon(

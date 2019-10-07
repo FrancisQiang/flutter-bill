@@ -1,5 +1,6 @@
 import 'package:flutter_bill/api/api.dart';
 import 'package:flutter_bill/bean/photo_bean.dart';
+import 'package:flutter_bill/bean/response_bean.dart';
 import 'dio_util.dart';
 export 'package:dio/dio.dart';
 
@@ -46,4 +47,44 @@ class ApiMethodUtil {
       token: token,
     );
   }
+
+  /// 上传评论意见
+  void postComment(
+      {FormData params,
+        Function success,
+        Function failed,
+        Function error,
+        CancelToken token}) {
+    DioUtil.getInstance().postUpload(
+        Api.BASE_URL + "/comment", (data) {
+      ResponseBean responseBean = ResponseBean.fromJson(data);
+      if (responseBean.code == 0) {
+        success(responseBean);
+      } else {
+        failed(responseBean);
+      }
+    }, (count, total) {},
+        formData: params, errorCallBack: (errorMessage) {
+      error(errorMessage);
+    });
+  }
+
+  /// 获取所有评论个信息
+  void getComments({
+    Function success,
+    Function error,
+    CancelToken token,
+  }) {
+    DioUtil.getInstance().get(
+      Api.BASE_URL + "/comment",
+          (data) {
+        success(data);
+      },
+      errorCallBack: (errorMessage) {
+        error(errorMessage);
+      },
+      token: token,
+    );
+  }
+
 }

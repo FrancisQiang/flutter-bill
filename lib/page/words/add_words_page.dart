@@ -1,13 +1,21 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bill/component/clip/rating_bar.dart';
+import 'package:flutter_bill/component/loading/loading_widget.dart';
+import 'package:flutter_bill/component/loading/net_loading_widget.dart';
 import 'package:flutter_bill/component/text/app_bar_text.dart';
 import 'package:flutter_bill/model/global_model.dart';
 import 'package:flutter_bill/model/home_page_model.dart';
+import 'package:flutter_bill/model/words_wall_model.dart';
 import 'package:flutter_bill/resource/shared_preferences_keys.dart';
+import 'package:flutter_bill/util/api_method_util.dart';
 import 'package:flutter_bill/util/color_util.dart';
+import 'package:flutter_bill/util/dio_util.dart';
 import 'package:flutter_bill/util/provider_util.dart';
 import 'package:flutter_bill/util/shared_util.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 class AddWordsPage extends StatefulWidget {
@@ -16,11 +24,12 @@ class AddWordsPage extends StatefulWidget {
 }
 
 class _AddWordsPageState extends State<AddWordsPage> {
-
   String _ratingValue;
 
   TextEditingController _commentsController;
   TextEditingController _contactController;
+
+  LoadingController _loadingController = LoadingController();
 
   @override
   void initState() {
@@ -28,6 +37,77 @@ class _AddWordsPageState extends State<AddWordsPage> {
     _ratingValue = "10";
     _commentsController = TextEditingController();
     _contactController = TextEditingController();
+  }
+
+  void _submitComment(
+      {double ratingValue,
+      String comment,
+      String contact,
+      String name,
+      String localAvatarPath,
+      WordsWallModel wordsWallModel}) async {
+    if (comment.isEmpty) {
+      Fluttertoast.showToast(
+          msg: "Comments cannot be empty",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 1,
+          backgroundColor: Colors.grey,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return;
+    } else if (comment.length < 10) {
+      Fluttertoast.showToast(
+          msg: "write more",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 1,
+          backgroundColor: Colors.grey,
+          textColor: Colors.white,
+          fontSize: 16.0);
+      return;
+    }
+
+    String fileName = localAvatarPath
+        .substring(localAvatarPath.lastIndexOf("/") + 1, localAvatarPath.length)
+        .replaceAll(" ", "");
+    String transFormName = Uri.encodeFull(fileName).replaceAll("%", "");
+
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return NetLoadingWidget(
+          onRequest: () {
+            _loadingController.setFlag(LoadingFlag.loading);
+            ApiMethodUtil.instance.postComment(
+              params: FormData.from({
+                "avatarImage": new UploadFileInfo(
+                    new File(localAvatarPath), transFormName),
+                "name": name,
+                "comment": comment,
+                "contact": contact,
+                "rating": ratingValue
+              }),
+              success: (bean) {
+                _loadingController.setFlag(LoadingFlag.success);
+                Navigator.pop(context);
+                Navigator.pop(context);
+                // 重新获取列表
+                wordsWallModel.getComments();
+              },
+              failed: (bean) {
+                _loadingController.setFlag(LoadingFlag.error);
+              },
+              error: (msg) {
+                _loadingController.setFlag(LoadingFlag.error);
+              },
+              token: wordsWallModel.cancelToken,
+            );
+          },
+          loadingController: _loadingController,
+        );
+      },
+    );
   }
 
   @override
@@ -49,11 +129,15 @@ class _AddWordsPageState extends State<AddWordsPage> {
                   color: ColorUtil.getWhiteOrGrey(globalModel),
                 ),
                 onPressed: () async {
-                  debugPrint("===========================>" + _ratingValue);
-                  debugPrint("===========================>" + _commentsController.text);
-                  debugPrint("===========================>" + _contactController.text);
-                  debugPrint("=========================>" + await SharedUtil.instance.getString(SharedPreferencesKeys.LOCAL_AVATAR_PATH));
-                  debugPrint("=========================>" + homePageModel.currentUserName);
+                  _submitComment(
+                    wordsWallModel: ProviderUtil.wordsWallModel,
+                    ratingValue: double.parse(_ratingValue),
+                    comment: _commentsController.text,
+                    contact: _contactController.text,
+                    name: homePageModel.currentUserName,
+                    localAvatarPath: await SharedUtil.instance
+                        .getString(SharedPreferencesKeys.LOCAL_AVATAR_PATH),
+                  );
                 },
               );
             },
@@ -65,9 +149,8 @@ class _AddWordsPageState extends State<AddWordsPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(
-                  top: ScreenUtil.getInstance().setHeight(250)
-              ),
+              margin:
+                  EdgeInsets.only(top: ScreenUtil.getInstance().setHeight(250)),
               padding: EdgeInsets.all(5),
               width: ScreenUtil.getInstance().setWidth(850),
               height: ScreenUtil.getInstance().setHeight(800),
@@ -135,8 +218,7 @@ class _AddWordsPageState extends State<AddWordsPage> {
                   Container(
                     margin: EdgeInsets.only(
                         left: ScreenUtil.getInstance().setWidth(180),
-                        top: ScreenUtil.getInstance().setHeight(30)
-                    ),
+                        top: ScreenUtil.getInstance().setHeight(30)),
                     width: ScreenUtil.getInstance().setWidth(620),
                     height: ScreenUtil.getInstance().setHeight(120),
                     child: RatingBar(
@@ -162,16 +244,15 @@ class _AddWordsPageState extends State<AddWordsPage> {
                     margin: EdgeInsets.only(
                       left: ScreenUtil.getInstance().setWidth(15),
                       right: ScreenUtil.getInstance().setWidth(15),
-                        top: ScreenUtil.getInstance().setHeight(30),
+                      top: ScreenUtil.getInstance().setHeight(30),
                     ),
                     child: Text(
                       '$_ratingValue',
                       style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 0.5
-                      ),
+                          color: Colors.blue,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 0.5),
                     ),
                   )
                 ],

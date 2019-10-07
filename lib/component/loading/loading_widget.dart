@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoadingWidget extends StatelessWidget {
   final Color progressColor;
@@ -11,7 +13,6 @@ class LoadingWidget extends StatelessWidget {
   final String idleText;
   final LoadingFlag flag;
   final VoidCallback errorCallBack;
-  final Widget successWidget;
   final double size;
 
   LoadingWidget({
@@ -24,7 +25,6 @@ class LoadingWidget extends StatelessWidget {
       this.emptyText,
       this.errorText,
       this.size = 80.0,
-      this.successWidget,
       this.idleText
   });
 
@@ -40,12 +40,12 @@ class LoadingWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                height: size / 2,
-                width: size / 2,
-                child: CircularProgressIndicator(
-                  strokeWidth: size / 10,
-                  valueColor: AlwaysStoppedAnimation(
-                      progressColor ?? primaryColor),
+                height: size,
+                width: size,
+                child: SpinKitFadingCircle(
+                  color: Theme.of(context).primaryColorDark,
+                  duration: Duration(milliseconds: 2000),
+                  size: size,
                 ),
               ),
               SizedBox(
@@ -82,7 +82,17 @@ class LoadingWidget extends StatelessWidget {
         );
         break;
       case LoadingFlag.success:
-        return successWidget ?? SizedBox();
+        return  Builder(builder: (context) {
+          Fluttertoast.showToast(
+              msg: "Thank for your comment",
+              toastLength: Toast.LENGTH_LONG,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIos: 1,
+              backgroundColor: Colors.grey,
+              textColor: Colors.white,
+              fontSize: 16.0);
+          return SizedBox();
+        });
         break;
       case LoadingFlag.empty:
         return Center(

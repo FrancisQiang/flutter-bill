@@ -73,6 +73,7 @@ class DioUtil {
   void postUpload(
     String url,
     Function callBack,
+    // 调用上传的进度
     ProgressCallback progressCallBack, {
     FormData formData,
     Function errorCallBack,

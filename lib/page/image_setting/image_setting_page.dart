@@ -7,8 +7,6 @@ import 'package:flutter_bill/util/navigator_util.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import '../net_image_setting/net_image_setting_page.dart';
-
 class ImageSettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

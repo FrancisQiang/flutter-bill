@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bill/bean/theme_bean.dart';
-import 'package:flutter_bill/component/custom_animated_switcher.dart';
+import 'package:flutter_bill/component/switcher/custom_animated_switcher.dart';
 import 'package:flutter_bill/component/text/app_bar_text.dart';
 import 'package:flutter_bill/model/global_model.dart';
 import 'package:flutter_bill/model/theme_page_model.dart';

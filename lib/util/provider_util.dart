@@ -4,9 +4,11 @@ import 'package:flutter_bill/model/bill_model.dart';
 import 'package:flutter_bill/model/global_model.dart';
 import 'package:flutter_bill/model/home_page_model.dart';
 import 'package:flutter_bill/model/theme_page_model.dart';
+import 'package:flutter_bill/model/words_wall_model.dart';
 import 'package:flutter_bill/page/bill_detail/bill_detail_page.dart';
 import 'package:flutter_bill/page/home/home_page.dart';
 import 'package:flutter_bill/page/theme_page/theme_page.dart';
+import 'package:flutter_bill/page/words/add_words_page.dart';
 import 'package:provider/provider.dart';
 import '../main.dart';
 
@@ -18,6 +20,11 @@ class ProviderUtil {
   static HomePageModel _homePageModel = HomePageModel();
 
   static BillModel _billModel = BillModel();
+
+  static WordsWallModel _wordsWallModel = WordsWallModel();
+
+
+  static WordsWallModel get wordsWallModel => _wordsWallModel;
 
   // 主题配置
   static ThemePageModel _themePageModel = ThemePageModel();
@@ -72,6 +79,16 @@ class ProviderUtil {
       child: child,
     );
   }
+
+
+  static ChangeNotifierProvider<WordsWallModel> getWordsWallPage(Widget child) {
+//    _wordsWallModel.getComments();
+    return ChangeNotifierProvider<WordsWallModel>.value(
+      value: _wordsWallModel,
+      child: child,
+    );
+  }
+
 
   static ChangeNotifierProvider<BillModel> getBillModelPage(Widget child) {
     return ChangeNotifierProvider<BillModel>.value(
