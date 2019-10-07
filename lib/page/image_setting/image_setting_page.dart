@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bill/component/text/app_bar_text.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_bill/config/my_const.dart';
 import 'package:flutter_bill/model/global_model.dart';
 import 'package:flutter_bill/util/navigator_util.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 class ImageSettingPage extends StatelessWidget {
@@ -45,7 +47,7 @@ class ImageSettingPage extends StatelessWidget {
   Widget _getImageRow(
       {bool isDaily, GlobalModel globalModel, BuildContext context}) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      padding: const EdgeInsets.symmetric(horizontal: 15.0),
       width: ScreenUtil.getInstance().setWidth(1080),
       decoration: BoxDecoration(),
       margin: EdgeInsets.only(top: ScreenUtil.getInstance().setHeight(300)),
@@ -76,15 +78,22 @@ class ImageSettingPage extends StatelessWidget {
                 }
               },
               child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                    image: DecorationImage(
-                        image: NetworkImage(
-                          isDaily
-                              ? MyConst.DAILY_PIC_URL
-                              : globalModel.currentNetPicUrl,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  child: CachedNetworkImage(
+                    fit: BoxFit.cover,
+                    imageUrl: isDaily ? MyConst.DAILY_PIC_URL : globalModel.currentNetPicUrl,
+                    placeholder: (context, url) =>
+                        SpinKitPumpingHeart(
+                          color: Theme.of(context).primaryColor,
+                          size: 60,
+                          duration: Duration(milliseconds: 2000),
                         ),
-                        fit: BoxFit.cover)),
+                    errorWidget:
+                        (context, url, error) =>
+                        Icon(Icons.error),
+                  ),
+                ),
               ),
             ),
           ),
