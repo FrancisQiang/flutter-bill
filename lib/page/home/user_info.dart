@@ -25,7 +25,7 @@ class UserInfo extends StatelessWidget {
                     future: homePageModel.getCurrentUserName(),
                     builder: (context, snapshot) {
                       return Text(
-                        'Hello!  ${snapshot.data}',
+                        'Hello! ${snapshot.data}',
                         style: TextStyle(
                             fontSize: 30.0,
                             color: Colors.white,
@@ -45,7 +45,9 @@ class UserInfo extends StatelessWidget {
           Consumer<HomePageModel>(
             builder: (BuildContext context, HomePageModel homePageModel, child) {
               return Container(
-                margin: EdgeInsets.only(right: ScreenUtil.getInstance().setWidth(50)),
+                margin: EdgeInsets.only(
+                  left: ScreenUtil.getInstance().setWidth(10),
+                  right: ScreenUtil.getInstance().setWidth(40),),
                 height: ScreenUtil.getInstance().setWidth(180),
                 width: ScreenUtil.getInstance().setWidth(180),
                 decoration: BoxDecoration(

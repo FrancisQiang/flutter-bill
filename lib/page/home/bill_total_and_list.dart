@@ -7,6 +7,7 @@ import 'package:flutter_bill/model/bill_model.dart';
 import 'package:flutter_bill/sql/bill_bean_db_helper.dart';
 import 'package:flutter_bill/util/provider_util.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import 'bill_bean_item.dart';
@@ -62,20 +63,19 @@ class _BillTotalAndListState extends State<BillTotalAndList> {
               return SizedBox();
             default:
               if (snapshot.hasError)
-                return new Text('Error: ${snapshot.error}');
+                return Icon(Icons.error);
               else {
                 return Builder(
                   builder: (context) {
                     double income = snapshot.data.income;
                     double expense = snapshot.data.expense;
                     return Container(
-                      height: ScreenUtil.getInstance().setHeight(200),
-                      margin: EdgeInsets.only(
-                          bottom: ScreenUtil.getInstance().setHeight(10)),
+                      height: ScreenUtil.getInstance().setHeight(170),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
                           BillRowText(
+                            width: 150,
                             topChild: Text('${DateTime
                                 .now()
                                 .year}',
@@ -88,6 +88,7 @@ class _BillTotalAndListState extends State<BillTotalAndList> {
                                   color: Colors.white,
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.w600),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           BillRowText(
@@ -95,15 +96,17 @@ class _BillTotalAndListState extends State<BillTotalAndList> {
                               'income',
                               style: billRowTextStyle,
                             ),
-                            bottomChild: Text('${income.toStringAsFixed(1)}',
+                            bottomChild: Text('${income.toStringAsFixed(2)}',
+                                overflow: TextOverflow.ellipsis,
                                 style: billRowTextStyle),
                           ),
                           BillRowText(
                             topChild: Text(
-                              'expenditure',
+                              'expense',
                               style: billRowTextStyle,
                             ),
-                            bottomChild: Text('${expense.toStringAsFixed(1)}',
+                            bottomChild: Text('${expense.toStringAsFixed(2)}',
+                                overflow: TextOverflow.ellipsis,
                                 style: billRowTextStyle),
                           ),
                           BillRowText(
@@ -112,7 +115,8 @@ class _BillTotalAndListState extends State<BillTotalAndList> {
                               style: billRowTextStyle,
                             ),
                             bottomChild: Text(
-                                '${(income - expense).toStringAsFixed(1)}',
+                                '${(income - expense).toStringAsFixed(2)}',
+                                overflow: TextOverflow.ellipsis,
                                 style: billRowTextStyle),
                           ),
                         ],
@@ -126,9 +130,7 @@ class _BillTotalAndListState extends State<BillTotalAndList> {
       );
     } else {
       return Container(
-        height: ScreenUtil.getInstance().setHeight(200),
-        margin: EdgeInsets.only(
-            bottom: ScreenUtil.getInstance().setHeight(10)),
+        height: ScreenUtil.getInstance().setHeight(170),
         child: Consumer<BillModel>(
           builder: (context, billModel, child) {
             incomeExpenseBean = calculateMonthIncomeAndExpense(billModel.billBeanList);
@@ -138,6 +140,7 @@ class _BillTotalAndListState extends State<BillTotalAndList> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 BillRowText(
+                  width: 150,
                   topChild: Text('${DateTime
                       .now()
                       .year}',
@@ -150,6 +153,7 @@ class _BillTotalAndListState extends State<BillTotalAndList> {
                         color: Colors.white,
                         fontSize: 20.0,
                         fontWeight: FontWeight.w600),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
                 BillRowText(
@@ -157,15 +161,17 @@ class _BillTotalAndListState extends State<BillTotalAndList> {
                     'income',
                     style: billRowTextStyle,
                   ),
-                  bottomChild: Text('${income.toStringAsFixed(1)}',
-                      style: billRowTextStyle),
+                  bottomChild: Text('${income.toStringAsFixed(2)}',
+                      style: billRowTextStyle,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
                 BillRowText(
                   topChild: Text(
-                    'expenditure',
+                    'expense',
                     style: billRowTextStyle,
                   ),
-                  bottomChild: Text('${expense.toStringAsFixed(1)}',
+                  bottomChild: Text('${expense.toStringAsFixed(2)}',
                       style: billRowTextStyle),
                 ),
                 BillRowText(
@@ -174,7 +180,8 @@ class _BillTotalAndListState extends State<BillTotalAndList> {
                     style: billRowTextStyle,
                   ),
                   bottomChild: Text(
-                      '${(income - expense).toStringAsFixed(1)}',
+                      '${(income - expense).toStringAsFixed(2)}',
+                      overflow: TextOverflow.ellipsis,
                       style: billRowTextStyle),
                 ),
               ],
@@ -233,6 +240,14 @@ class _BillTotalAndListState extends State<BillTotalAndList> {
       billBean = _billBeanList.removeAt(index);
       incomeExpenseBean = calculateMonthIncomeAndExpense(_billBeanList);
     });
+    Fluttertoast.showToast(
+        msg: "delete success",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIos: 1,
+        backgroundColor: Colors.grey,
+        textColor: Colors.white,
+        fontSize: 16.0);
     BillBeanProvider.instance.delete(billBean.id);
   }
 
@@ -242,7 +257,7 @@ class _BillTotalAndListState extends State<BillTotalAndList> {
           decoration: BoxDecoration(
             color: Colors.transparent,
           ),
-          height: ScreenUtil.getInstance().setHeight(1400),
+          height: ScreenUtil.getInstance().setHeight(1480),
           child: Consumer<BillModel>(
             builder: (context, billModel, child) {
               return FutureBuilder<List<BillBean>>(
@@ -280,11 +295,10 @@ class _BillTotalAndListState extends State<BillTotalAndList> {
           ));
     } else {
       return Container(
-        margin: EdgeInsets.only(top: ScreenUtil.getInstance().setHeight(20)),
           decoration: BoxDecoration(
             color: Colors.transparent,
           ),
-          height: ScreenUtil.getInstance().setHeight(1385),
+          height: ScreenUtil.getInstance().setHeight(1480),
           child: Consumer<BillModel>(
             builder: (context, billModel, child) {
               return ListView.builder(

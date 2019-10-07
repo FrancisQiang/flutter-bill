@@ -34,7 +34,7 @@ class BillBeanItem extends StatelessWidget {
     // 侧滑拉出删除的滑动控制器
     ScrollController _scrollController = ScrollController();
     double width = ScreenUtil.getInstance().setWidth(1080);
-    double itemHeight = ScreenUtil.getInstance().setHeight(2340 / 7);
+    double itemHeight = ScreenUtil.getInstance().setHeight(300);
     // 获取名字
     String name = item.name;
     // 通过iconAlgebra构造Icon
@@ -48,13 +48,13 @@ class BillBeanItem extends StatelessWidget {
       height: itemHeight,
       child: Listener(
           onPointerUp: (d) {
-            if (_scrollController.offset < (ScreenUtil.getInstance().setWidth(216))) {
+            if (_scrollController.offset < (ScreenUtil.getInstance().setWidth(200))) {
               _scrollController.animateTo(0,
-                  duration: Duration(milliseconds: 100),
+                  duration: Duration(milliseconds: 200),
                   curve: Curves.linear);
             } else {
-              _scrollController.animateTo(ScreenUtil.getInstance().setWidth(540),
-                  duration: Duration(milliseconds: 100),
+              _scrollController.animateTo(ScreenUtil.getInstance().setWidth(500),
+                  duration: Duration(milliseconds: 200),
                   curve: Curves.linear);
             }
           },
@@ -76,7 +76,7 @@ class BillBeanItem extends StatelessWidget {
                             builder: (ctx) {
                               return ProviderUtil.getBillDetailPage(
                                   billBean: item,
-                                  heroTag: "test$index",
+                                  heroTag: "billBean$index",
                                   icon: Icon(
                                       IconData(
                                           iconAlgebra,
@@ -102,13 +102,13 @@ class BillBeanItem extends StatelessWidget {
                           child: Row(
                             children: <Widget>[
                               Hero(
-                                tag: "test$index",
+                                tag: "billBean$index",
                                 child: Container(
-                                  margin: EdgeInsets.only(
-                                      left: width / 17,
-                                      right: width / 20),
-                                  height: width / 7,
-                                  width: width / 7,
+                                  margin: EdgeInsets.symmetric(
+                                    horizontal: (width - ScreenUtil.getInstance().setWidth(40)) / 20
+                                  ),
+                                  height: itemHeight / 8 * 5,
+                                  width: itemHeight / 8 * 5,
                                   child: icon,
                                   decoration: BoxDecoration(
                                       color: iconColor == null
@@ -119,7 +119,7 @@ class BillBeanItem extends StatelessWidget {
                                 ),
                               ),
                               Container(
-                                width: width / 3,
+                                width: (width - ScreenUtil.getInstance().setWidth(40)) / 3.3,
                                 child: Column(
                                   mainAxisAlignment:
                                   MainAxisAlignment.center,
@@ -156,8 +156,7 @@ class BillBeanItem extends StatelessWidget {
                                 ),
                               ),
                               Container(
-                                margin:
-                                EdgeInsets.only(left: width / 6),
+                                margin: EdgeInsets.only(left: (width - ScreenUtil.getInstance().setWidth(40)) / 20 * 3),
                                 child: Text(
                                   '${item.type == MyConst.EXPEND ? -item.money : item.money}',
                                   style: TextStyle(
@@ -165,7 +164,9 @@ class BillBeanItem extends StatelessWidget {
                                       letterSpacing: 2.0,
                                       fontFamily: 'lobster',
                                       fontWeight: FontWeight.w500,
-                                      fontSize: 15.0),
+                                      fontSize: 15.0,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               )
                             ],

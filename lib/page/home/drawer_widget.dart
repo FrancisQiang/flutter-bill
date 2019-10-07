@@ -6,7 +6,6 @@ import 'package:flutter_bill/config/my_const.dart';
 import 'package:flutter_bill/model/global_model.dart';
 import 'package:flutter_bill/page/image_page/image_page.dart';
 import 'package:flutter_bill/page/image_setting/image_setting_page.dart';
-import 'package:flutter_bill/page/user/user_page.dart';
 import 'package:flutter_bill/util/navigator_util.dart';
 import 'package:flutter_bill/util/provider_util.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
