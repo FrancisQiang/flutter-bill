@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bill/bean/theme_bean.dart';
 import 'package:flutter_bill/component/switcher/custom_animated_switcher.dart';
@@ -13,7 +12,6 @@ import 'package:flutter_bill/util/theme_util.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-
 class ThemePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -22,106 +20,98 @@ class ThemePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: AppBarText(
-          'Theme Setting'
-        ),
+        title: AppBarText('Theme Setting'),
         actions: <Widget>[
-          model.themeList.length > 7 ? CustomAnimatedSwitcher(
-            firstChild: IconButton(
-              icon: Icon(
-                Icons.border_color,
-                size: 20.0,
-                color: ColorUtil.getWhiteOrGrey(globalModel),
-              ),
-              onPressed: null,
-            ),
-            secondChild: IconButton(
-              icon: Icon(
-                Icons.check,
-                size: 20.0,
-                color: ColorUtil.getWhiteOrGrey(globalModel),
-              ),
-              onPressed: null,
-            ),
-            hasChanged: model.deleting,
-            onTap: () {
-              model.deleting = !model.deleting;
-              model.refresh();
-            },
-          ) : SizedBox(),
+          model.themeList.length > 7
+              ? CustomAnimatedSwitcher(
+                  firstChild: IconButton(
+                    icon: Icon(
+                      Icons.border_color,
+                      size: 20.0,
+                      color: ColorUtil.getWhiteOrGrey(globalModel),
+                    ),
+                    onPressed: null,
+                  ),
+                  secondChild: IconButton(
+                    icon: Icon(
+                      Icons.check,
+                      size: 20.0,
+                      color: ColorUtil.getWhiteOrGrey(globalModel),
+                    ),
+                    onPressed: null,
+                  ),
+                  hasChanged: model.deleting,
+                  onTap: () {
+                    model.deleting = !model.deleting;
+                    model.refresh();
+                  },
+                )
+              : SizedBox(),
         ],
       ),
+      floatingActionButton: AbsorbPointer(
+        absorbing: model.deleting,
+        child: Opacity(
+          opacity: model.deleting ? 0 : 1,
+          child: InkWell(
+            onTap: () {
+              model.createCustomTheme(context);
+            },
+            child: Container(
+              height: ScreenUtil.getInstance().setWidth(200),
+              width: ScreenUtil.getInstance().setWidth(200),
+              alignment: Alignment.center,
+              child: Icon(
+                Icons.add,
+                color: Colors.white,
+                size: 40,
+              ),
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(colors: [
+                    Colors.redAccent,
+                    Colors.greenAccent,
+                    Colors.blueAccent,
+                  ], begin: Alignment.topLeft, end: Alignment.bottomRight)),
+            ),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: Container(
         alignment: Alignment.topCenter,
-        child: SingleChildScrollView(
-          child: Wrap(
-            children: List.generate(model.themeList.length + 1, (index) {
-              if (index == model.themeList.length) {
-                return AbsorbPointer(
+        child: GridView.count(
+          crossAxisCount: 2,
+          childAspectRatio: 0.7,
+          children: List.generate(model.themeList.length, (index) {
+            final themeBean = model.themeList[index];
+            return Stack(
+              children: <Widget>[
+                AbsorbPointer(
                   absorbing: model.deleting,
-                  child: Opacity(
-                    opacity: model.deleting ? 0 : 1,
-                    child: InkWell(
-                      onTap: () {
-                        model.createCustomTheme(context);
-                      },
-                      child: Container(
-                        height: ScreenUtil.getInstance().setWidth(220),
-                        width: ScreenUtil.getInstance().setWidth(220),
-                        margin: EdgeInsets.all(20),
-                        alignment: Alignment.center,
-                        child: Icon(
-                          Icons.add,
-                          color: Colors.white,
-                          size: 40,
+                  child:
+                      getThemeBloc(themeBean, globalModel),
+                ),
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: AbsorbPointer(
+                    absorbing: model.deleting ? false : true,
+                    child: Opacity(
+                      opacity: (index > 6 && model.deleting) ? 1.0 : 0.0,
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.cancel,
+                          color: Colors.redAccent,
                         ),
-                        decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            gradient: LinearGradient(
-                                colors: [
-                                  Colors.redAccent,
-                                  Colors.greenAccent,
-                                  Colors.blueAccent,
-                                ],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight)),
+                        onPressed: () => model.removeIcon(index),
                       ),
                     ),
                   ),
-                );
-              }
-              final themeBean = model.themeList[index];
-              return Stack(
-                children: <Widget>[
-                  AbsorbPointer(
-                    absorbing: model.deleting,
-                    child: getThemeBloc(
-                      themeBean,
-                      globalModel,
-                    ),
-                  ),
-                  Positioned(
-                    top: 0,
-                    right: 0,
-                    child: AbsorbPointer(
-                      absorbing: model.deleting ? false : true,
-                      child: Opacity(
-                        opacity: (index > 6 && model.deleting) ? 1.0 : 0.0,
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.cancel,
-                            color: Colors.redAccent,
-                          ),
-                          onPressed: () => model.removeIcon(index),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              );
-            }),
-          ),
+                )
+              ],
+            );
+          }),
         ),
       ),
     );
@@ -133,24 +123,23 @@ class ThemePage extends StatelessWidget {
       onTap: () {
         globalModel.currentThemeBean = themeBean;
         globalModel.refresh();
-        SharedUtil.instance.saveString(SharedPreferencesKeys.CURRENT_THEME_BEAN, jsonEncode(themeBean.toMap()));
+        SharedUtil.instance.saveString(SharedPreferencesKeys.CURRENT_THEME_BEAN,
+            jsonEncode(themeBean.toMap()));
       },
       child: Container(
-        height: ScreenUtil.getInstance().setWidth(220),
-        width: ScreenUtil.getInstance().setWidth(220),
-        margin: EdgeInsets.all(20),
+        margin: EdgeInsets.symmetric(
+            horizontal: ScreenUtil.getInstance().setWidth(40),
+            vertical: ScreenUtil.getInstance().setHeight(80)),
         alignment: Alignment.center,
         child: Text(
           themeBean.themeName,
-          style: TextStyle(color: Colors.white, fontSize: 12),
+          style: TextStyle(color: Colors.white, fontSize: 25),
         ),
         decoration: BoxDecoration(
-          color: themeBean.themeType == MyTheme.darkTheme
-              ? Colors.black
-              : ColorUtil.colorBeanToColor(themeBean.colorBean),
-          shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-        ),
+            color: themeBean.themeType == MyTheme.darkTheme
+                ? Colors.black
+                : ColorUtil.colorBeanToColor(themeBean.colorBean),
+            borderRadius: BorderRadius.all(Radius.circular(20))),
       ),
     );
   }
