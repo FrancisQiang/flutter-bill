@@ -7,12 +7,11 @@ class HomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
+    return Container(
       child: Column(
         children: <Widget>[
           UserInfo(),
-          ProviderUtil.getBillModelPage(BillTotalAndList()),
+          Expanded(child: ProviderUtil.getBillModelPage(BillTotalAndList()))
         ],
       ),
     );

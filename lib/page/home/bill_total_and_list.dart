@@ -257,7 +257,6 @@ class _BillTotalAndListState extends State<BillTotalAndList> {
           decoration: BoxDecoration(
             color: Colors.transparent,
           ),
-          height: ScreenUtil.getInstance().setHeight(1480),
           child: Consumer<BillModel>(
             builder: (context, billModel, child) {
               return FutureBuilder<List<BillBean>>(
@@ -298,7 +297,6 @@ class _BillTotalAndListState extends State<BillTotalAndList> {
           decoration: BoxDecoration(
             color: Colors.transparent,
           ),
-          height: ScreenUtil.getInstance().setHeight(1480),
           child: Consumer<BillModel>(
             builder: (context, billModel, child) {
               return ListView.builder(
@@ -326,7 +324,7 @@ class _BillTotalAndListState extends State<BillTotalAndList> {
     return Column(
       children: <Widget>[
         _getMonthBill(),
-        _getBillList()
+        Expanded(child: _getBillList())
       ],
     );
   }
