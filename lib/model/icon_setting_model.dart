@@ -118,6 +118,15 @@ class IconSettingModel with ChangeNotifier {
         colorBean: ColorUtil.colorToColorBean(MyThemeColor.blueGrayColor)),
   ];
 
+  Color _currentChoosingColor;
+
+
+  Color get currentChoosingColor => this._currentChoosingColor;
+
+  set currentChoosingColor(Color value) {
+    _currentChoosingColor = value;
+  }
+
   List<IconBean> _iconBeanList = [];
 
   List<IconBean> get iconBeanList => this._iconBeanList;

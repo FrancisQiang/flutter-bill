@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bill/bean/bill_icon_bean.dart';
+import 'package:flutter_bill/bean/color_bean.dart';
+import 'package:flutter_bill/component/dialog/custom_icon_widget.dart';
 import 'package:flutter_bill/component/loading/loading_widget.dart';
 import 'package:flutter_bill/component/text/app_bar_text.dart';
+import 'package:flutter_bill/config/my_const.dart';
 import 'package:flutter_bill/model/icon_setting_model.dart';
 import 'package:flutter_bill/util/color_util.dart';
 import 'package:flutter_bill/util/navigator_util.dart';
@@ -25,6 +28,48 @@ class _IconSettingPageState extends State<IconSettingPage> {
   void initState() {
     super.initState();
     initIconList();
+  }
+
+  void editIconColor({ColorBean colorBean, int index, int type}) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (ctx) {
+          return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              elevation: 0.0,
+              contentPadding: EdgeInsets.all(
+                ScreenUtil.getInstance().setWidth(30)
+              ),
+              title: Center(child: Text(
+                'Custom Color',
+                style: TextStyle(
+                  color: Colors.black87,
+                  fontSize: 28.0,
+                  letterSpacing: 1.5,
+                  fontFamily: 'lobster'
+                ),
+              ),),
+              content: CustomIconWidget(
+                onApplyTap: (color) async {
+                  ProviderUtil.iconSettingModel.currentChoosingColor = color;
+                  ColorBean localColorBean = ColorUtil.colorToColorBean(ProviderUtil.iconSettingModel.currentChoosingColor);
+                  if (type == MyConst.EXPEND) {
+                    ProviderUtil.iconSettingModel.expenseIconList[index].colorBean = localColorBean;
+                    ProviderUtil.iconSettingModel.refresh();
+                    await ProviderUtil.iconSettingModel.storageExpenseIconList();
+                  } else {
+                    ProviderUtil.iconSettingModel.incomeIconList[index].colorBean = localColorBean;
+                    ProviderUtil.iconSettingModel.refresh();
+                    await ProviderUtil.iconSettingModel.storageIncomeIconList();
+                  }
+                },
+                pickerColor: colorBean == null
+                    ? ProviderUtil.iconSettingModel.currentChoosingColor
+                    : ColorUtil.colorBeanToColor(colorBean),
+              ));
+        });
   }
 
   @override
@@ -212,7 +257,13 @@ class _IconSettingPageState extends State<IconSettingPage> {
                                             color: Colors.grey[400],
                                           ),
                                         ),
-                                        onTap: () {},
+                                        onTap: () {
+                                          editIconColor(
+                                            colorBean: iconSettingModel.incomeIconList[index].colorBean,
+                                            index: index,
+                                            type: MyConst.INCOME
+                                          );
+                                        },
                                       ),
                                       Container(
                                         decoration: BoxDecoration(
