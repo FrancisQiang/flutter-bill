@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bill/bean/bill_icon_bean.dart';
 import 'package:flutter_bill/resource/shared_preferences_keys.dart';
 import 'package:flutter_bill/util/shared_util.dart';
@@ -81,6 +82,10 @@ class IconListUtil{
         colorBean: ColorUtil.colorToColorBean(MyThemeColor.blueGrayColor)),
   ];
 
+  static List<BillIconBean> get expenseIconList => _expenseIconList;
+
+  static List<BillIconBean> get incomeIconList => _incomeIconList;
+
   static Future<List<BillIconBean>> getExpenseIconWithCache() async{
     List<String> stringList = await SharedUtil.instance.getStringList(SharedPreferencesKeys.EXPENSE_ICON_LIST);
     if (stringList != null && stringList.length > 0) {
@@ -122,4 +127,11 @@ class IconListUtil{
     }
     return _incomeIconList;
   }
+
+  static Future<List<IconBean>> getLocalIconList() async {
+    String json = await rootBundle.loadString('assets/json/icon_json.json');
+    return IconBean.fromMapList(jsonDecode(json));
+  }
+
+
 }

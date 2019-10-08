@@ -24,4 +24,8 @@ class NavigatorUtil {
     Application.router.navigateTo(context, Routes.avatarPage);
   }
 
+  static void toIconSettingPage(BuildContext context) {
+    Application.router.navigateTo(context, Routes.iconSettingPage);
+  }
+
 }
