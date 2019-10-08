@@ -1,3 +1,4 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bill/component/button/animated_floating_button.dart';
@@ -15,44 +16,42 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import 'body.dart';
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-
   int _currentIndex = 0;
 
   Widget _getBottom(BuildContext context) {
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      iconSize: 28.0,
-      unselectedItemColor: Colors.black54,
-      selectedItemColor: ColorUtil.getLight(Theme.of(context).primaryColor, level: 40),
-      backgroundColor: Colors.transparent,
-      currentIndex: _currentIndex,
-      elevation: 35.0,
+    return CurvedNavigationBar(
+      height: 50,
+      backgroundColor: Theme.of(context).primaryColor,
+      color: Colors.white70,
+      items: [
+        Icon(
+          MyIcons.bill,
+          size: 28,
+          color: Theme.of(context).primaryColor,
+        ),
+        Icon(
+          MyIcons.chart,
+          size: 28,
+          color: Theme.of(context).primaryColor,
+        ),
+        Icon(
+          MyIcons.comments,
+          size: 28,
+          color: Theme.of(context).primaryColor,
+        ),
+      ],
       onTap: (index) {
         setState(() {
           _currentIndex = index;
         });
       },
-      items: [
-        _getBottomItem(icon: Icon(MyIcons.bill), text: 'Bill'),
-        _getBottomItem(icon: Icon(MyIcons.chart), text: 'Chart'),
-        _getBottomItem(icon: Icon(MyIcons.comments), text: 'Words'),
-      ],
-    );
-  }
-
-  BottomNavigationBarItem _getBottomItem({@required Icon icon, String text}) {
-    return BottomNavigationBarItem(
-      icon: icon,
-      title: Text(
-        text,
-        style: TextStyle(fontFamily: 'lobster', letterSpacing: 3.0),
-      ),
     );
   }
 
@@ -71,15 +70,17 @@ class _HomePageState extends State<HomePage> {
           leading: Builder(
             builder: (context) {
               return Consumer<GlobalModel>(
-                builder: (context, globalModel, child) {
-                  return FlatButton(
-                    child: Icon(Icons.menu, color: ColorUtil.getWhiteOrGrey(globalModel),),
-                    onPressed: () {
-                      Scaffold.of(context).openDrawer();
-                    },
-                  );
-                }
-              );
+                  builder: (context, globalModel, child) {
+                return FlatButton(
+                  child: Icon(
+                    Icons.menu,
+                    color: ColorUtil.getWhiteOrGrey(globalModel),
+                  ),
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                );
+              });
             },
           ),
           actions: <Widget>[
@@ -93,11 +94,10 @@ class _HomePageState extends State<HomePage> {
                       color: ColorUtil.getWhiteOrGrey(globalModel),
                     ),
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) {
-                          return ProviderUtil.getHomeModel(child: AddWordsPage());
-                        }
-                      ));
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
+                        return ProviderUtil.getHomeModel(child: AddWordsPage());
+                      }));
                     },
                   );
                 } else {
@@ -112,8 +112,7 @@ class _HomePageState extends State<HomePage> {
                 }
               },
             )
-          ]
-      ),
+          ]),
       drawer: Drawer(
         child: DrawerWidget(),
       ),
@@ -132,5 +131,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-
