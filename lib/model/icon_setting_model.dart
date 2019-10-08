@@ -4,19 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bill/bean/bill_icon_bean.dart';
 import 'package:flutter_bill/resource/shared_preferences_keys.dart';
+import 'package:flutter_bill/util/color_util.dart';
 import 'package:flutter_bill/util/shared_util.dart';
 import 'package:flutter_bill/util/theme_util.dart';
-import 'color_util.dart';
 
-class IconListUtil{
+class IconSettingModel with ChangeNotifier {
 
   // 默认的收入列表
-  static List<BillIconBean> _incomeIconList = [
+  List<BillIconBean> _incomeIconList = [
     BillIconBean(
-      name: 'work',
-      type: 1,
-      iconBean: IconBean.fromIconData(Icons.work),
-      colorBean: ColorUtil.colorToColorBean(MyThemeColor.coffeeColor)),
+        name: 'work',
+        type: 1,
+        iconBean: IconBean.fromIconData(Icons.work),
+        colorBean: ColorUtil.colorToColorBean(MyThemeColor.coffeeColor)),
     BillIconBean(
         name: 'bonus',
         type: 1,
@@ -49,12 +49,12 @@ class IconListUtil{
   ];
 
   // 默认的支出列表
-  static List<BillIconBean> _expenseIconList = [
+  List<BillIconBean> _expenseIconList = [
     BillIconBean(
-      name: 'food',
-      type: 0,
-      iconBean: IconBean.fromIconData(Icons.local_dining),
-      colorBean: ColorUtil.colorToColorBean(MyThemeColor.coffeeColor)),
+        name: 'food',
+        type: 0,
+        iconBean: IconBean.fromIconData(Icons.local_dining),
+        colorBean: ColorUtil.colorToColorBean(MyThemeColor.coffeeColor)),
     BillIconBean(
         name: 'game',
         type: 0,
@@ -82,11 +82,38 @@ class IconListUtil{
         colorBean: ColorUtil.colorToColorBean(MyThemeColor.blueGrayColor)),
   ];
 
-  static List<BillIconBean> get expenseIconList => _expenseIconList;
 
-  static List<BillIconBean> get incomeIconList => _incomeIconList;
+  List<BillIconBean> get incomeIconList => this._incomeIconList;
 
-  static Future<List<BillIconBean>> getExpenseIconWithCache() async{
+  set incomeIconList(List<BillIconBean> value) {
+    _incomeIconList = value;
+  }
+
+  List<BillIconBean> get expenseIconList => this._expenseIconList;
+
+  set expenseIconList(List<BillIconBean> value) {
+    _expenseIconList = value;
+  }
+
+  void storageIncomeIconList() async {
+    List<String> stringList = [];
+    _incomeIconList.forEach((billIconBean) {
+      String str = jsonEncode(billIconBean.toMap());
+      stringList.add(str);
+    });
+    await SharedUtil.instance.saveStringList(SharedPreferencesKeys.INCOME_ICON_LIST, stringList);
+  }
+
+  void storageExpenseIconList() async {
+    List<String> stringList = [];
+    _expenseIconList.forEach((billIconBean) {
+      String str = jsonEncode(billIconBean.toMap());
+      stringList.add(str);
+    });
+    await SharedUtil.instance.saveStringList(SharedPreferencesKeys.EXPENSE_ICON_LIST, stringList);
+  }
+
+  Future<List<BillIconBean>> getExpenseIconWithCache() async{
     List<String> stringList = await SharedUtil.instance.getStringList(SharedPreferencesKeys.EXPENSE_ICON_LIST);
     if (stringList != null && stringList.length > 0) {
       // 首先清除
@@ -107,7 +134,7 @@ class IconListUtil{
     return _expenseIconList;
   }
 
-  static Future<List<BillIconBean>> getIncomeIconWithCache() async{
+  Future<List<BillIconBean>> getIncomeIconWithCache() async{
     List<String> stringList = await
     SharedUtil.instance.getStringList(SharedPreferencesKeys.INCOME_ICON_LIST);
     if (stringList != null && stringList.length > 0) {
@@ -128,10 +155,13 @@ class IconListUtil{
     return _incomeIconList;
   }
 
-  static Future<List<IconBean>> getLocalIconList() async {
+  Future<List<IconBean>> getLocalIconList() async {
     String json = await rootBundle.loadString('assets/json/icon_json.json');
     return IconBean.fromMapList(jsonDecode(json));
   }
 
+  refresh() {
+    notifyListeners();
+  }
 
 }

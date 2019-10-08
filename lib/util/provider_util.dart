@@ -3,7 +3,7 @@ import 'package:flutter_bill/bean/bill_bean.dart';
 import 'package:flutter_bill/model/bill_model.dart';
 import 'package:flutter_bill/model/global_model.dart';
 import 'package:flutter_bill/model/home_page_model.dart';
-import 'package:flutter_bill/model/icon_setting_page_model.dart';
+import 'package:flutter_bill/model/icon_setting_model.dart';
 import 'package:flutter_bill/model/theme_page_model.dart';
 import 'package:flutter_bill/model/words_wall_model.dart';
 import 'package:flutter_bill/page/bill_detail/bill_detail_page.dart';
@@ -24,7 +24,9 @@ class ProviderUtil {
 
   static WordsWallModel _wordsWallModel = WordsWallModel();
 
-  static IconSettingPageModel _iconSettingPageModel = IconSettingPageModel();
+  static IconSettingModel _iconSettingModel = IconSettingModel();
+
+  static IconSettingModel get iconSettingModel => _iconSettingModel;
 
   static WordsWallModel get wordsWallModel => _wordsWallModel;
 
@@ -107,9 +109,9 @@ class ProviderUtil {
     );
   }
 
-  static ChangeNotifierProvider<IconSettingPageModel> getIconSettingPage() {
-    return ChangeNotifierProvider<IconSettingPageModel>.value(
-      value: _iconSettingPageModel,
+  static ChangeNotifierProvider<IconSettingModel> getIconSettingPage() {
+    return ChangeNotifierProvider<IconSettingModel>.value(
+      value: _iconSettingModel,
       child: IconSettingPage(),
     );
   }
