@@ -92,6 +92,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.1.2"
+  curved_navigation_bar:
+    dependency: "direct main"
+    description:
+      name: curved_navigation_bar
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.3.1"
   dio:
     dependency: "direct main"
     description:

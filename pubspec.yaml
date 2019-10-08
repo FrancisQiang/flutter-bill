@@ -75,6 +75,8 @@ dependencies:
   permission_handler: ^3.2.0
   # loading加载
   flutter_spinkit: ^4.0.0
+  # 动态底部导航
+  curved_navigation_bar: ^0.3.1
 
 dev_dependencies:
   flutter_test:
