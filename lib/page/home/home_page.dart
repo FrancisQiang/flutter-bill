@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _getBottom(BuildContext context) {
     return CurvedNavigationBar(
-      height: 50,
+      height: 70,
       backgroundColor: Theme.of(context).primaryColor,
       color: Colors.white70,
       items: [
