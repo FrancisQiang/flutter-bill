@@ -14,7 +14,6 @@ import 'package:flutter_bill/util/color_util.dart';
 import 'package:flutter_bill/util/provider_util.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-
 import 'body.dart';
 
 class HomePage extends StatefulWidget {

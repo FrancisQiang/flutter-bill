@@ -145,6 +145,27 @@ class DrawerWidget extends StatelessWidget {
                 NavigatorUtil.toUserPage(context);
               },
             ),
+            ListTile(
+              title: Text(
+                'Icon',
+                style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w100,
+                    letterSpacing: 2.5,
+                    fontFamily: 'lobster'),
+              ),
+              leading: Icon(
+                Icons.insert_emoticon,
+                size: 28.0,
+              ),
+              trailing: Icon(
+                Icons.keyboard_arrow_right,
+                size: 28.0,
+              ),
+              onTap: () {
+                NavigatorUtil.toIconSettingPage(context);
+              },
+            ),
           ],
         );
       },

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bill/util/icon_list_util.dart';
+import 'package:flutter_bill/util/provider_util.dart';
 import 'package:flutter_bill/util/show_full_screen_dialog_util.dart';
 
 import 'package:flutter_bill/component/button/bottom_show_widget.dart';
@@ -55,8 +55,8 @@ class _AnimatedFloatingButtonState extends State<AnimatedFloatingButton>
                   onExit: () {
                     _controller.reverse();
                   },
-                  billIconExpenseBeans: await IconListUtil.getExpenseIconWithCache(),
-                  billIconIncomeBeans: await IconListUtil.getIncomeIconWithCache(),
+                  billIconExpenseBeans: await ProviderUtil.iconSettingModel.getExpenseIconWithCache(),
+                  billIconIncomeBeans: await ProviderUtil.iconSettingModel.getIncomeIconWithCache(),
                 )
             );
           },

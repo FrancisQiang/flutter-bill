@@ -3,12 +3,14 @@ import 'package:flutter_bill/bean/bill_bean.dart';
 import 'package:flutter_bill/model/bill_model.dart';
 import 'package:flutter_bill/model/global_model.dart';
 import 'package:flutter_bill/model/home_page_model.dart';
+import 'package:flutter_bill/model/icon_setting_model.dart';
 import 'package:flutter_bill/model/theme_page_model.dart';
 import 'package:flutter_bill/model/words_wall_model.dart';
 import 'package:flutter_bill/page/bill_detail/bill_detail_page.dart';
 import 'package:flutter_bill/page/home/home_page.dart';
+import 'package:flutter_bill/page/icon/add_icon_page.dart';
+import 'package:flutter_bill/page/icon/icon_settting_page.dart';
 import 'package:flutter_bill/page/theme_page/theme_page.dart';
-import 'package:flutter_bill/page/words/add_words_page.dart';
 import 'package:provider/provider.dart';
 import '../main.dart';
 
@@ -23,6 +25,9 @@ class ProviderUtil {
 
   static WordsWallModel _wordsWallModel = WordsWallModel();
 
+  static IconSettingModel _iconSettingModel = IconSettingModel();
+
+  static IconSettingModel get iconSettingModel => _iconSettingModel;
 
   static WordsWallModel get wordsWallModel => _wordsWallModel;
 
@@ -82,7 +87,6 @@ class ProviderUtil {
 
 
   static ChangeNotifierProvider<WordsWallModel> getWordsWallPage(Widget child) {
-//    _wordsWallModel.getComments();
     return ChangeNotifierProvider<WordsWallModel>.value(
       value: _wordsWallModel,
       child: child,
@@ -105,7 +109,19 @@ class ProviderUtil {
     );
   }
 
+  static ChangeNotifierProvider<IconSettingModel> getIconSettingPage() {
+    return ChangeNotifierProvider<IconSettingModel>.value(
+      value: _iconSettingModel,
+      child: IconSettingPage(),
+    );
+  }
 
+  static ChangeNotifierProvider<IconSettingModel> getAddIconPage() {
+    return ChangeNotifierProvider<IconSettingModel>.value(
+      value: _iconSettingModel,
+      child: AddIconPage(),
+    );
+  }
 
 
 }
