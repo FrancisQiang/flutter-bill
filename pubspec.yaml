@@ -95,6 +95,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/json/
 
   fonts:
     - family: lobster

@@ -3,12 +3,48 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bill/bean/bill_icon_bean.dart';
+import 'package:flutter_bill/config/my_const.dart';
 import 'package:flutter_bill/resource/shared_preferences_keys.dart';
 import 'package:flutter_bill/util/color_util.dart';
 import 'package:flutter_bill/util/shared_util.dart';
 import 'package:flutter_bill/util/theme_util.dart';
 
 class IconSettingModel with ChangeNotifier {
+
+  IconData _choosingIconData = IconData(
+    58743,
+    fontFamily: MyConst.ICON_FAMILY,
+  );
+
+
+  IconData get choosingIconData => this._choosingIconData;
+
+  set choosingIconData(IconData value) {
+    _choosingIconData = value;
+  }
+  bool _initIconList = false;
+
+  bool get initIconList => this._initIconList;
+
+  set initIconList(bool value) {
+    _initIconList = value;
+  }
+
+  bool _choosingIconType = true;
+
+  bool get choosingIconType => this._choosingIconType;
+
+  String _choosingIconName;
+
+  String get choosingIconName => this._choosingIconName;
+
+  set choosingIconName(String value) {
+    _choosingIconName = value;
+  }
+
+  set choosingIconType(bool value) {
+    _choosingIconType = value;
+  }
 
   // 默认的收入列表
   List<BillIconBean> _incomeIconList = [
@@ -82,6 +118,13 @@ class IconSettingModel with ChangeNotifier {
         colorBean: ColorUtil.colorToColorBean(MyThemeColor.blueGrayColor)),
   ];
 
+  List<IconBean> _iconBeanList = [];
+
+  List<IconBean> get iconBeanList => this._iconBeanList;
+
+  set iconBeanList(List<IconBean> value) {
+    _iconBeanList = value;
+  }
 
   List<BillIconBean> get incomeIconList => this._incomeIconList;
 
@@ -95,7 +138,7 @@ class IconSettingModel with ChangeNotifier {
     _expenseIconList = value;
   }
 
-  void storageIncomeIconList() async {
+  Future<Null> storageIncomeIconList() async {
     List<String> stringList = [];
     _incomeIconList.forEach((billIconBean) {
       String str = jsonEncode(billIconBean.toMap());
@@ -104,7 +147,7 @@ class IconSettingModel with ChangeNotifier {
     await SharedUtil.instance.saveStringList(SharedPreferencesKeys.INCOME_ICON_LIST, stringList);
   }
 
-  void storageExpenseIconList() async {
+  Future<Null> storageExpenseIconList() async {
     List<String> stringList = [];
     _expenseIconList.forEach((billIconBean) {
       String str = jsonEncode(billIconBean.toMap());
@@ -157,7 +200,15 @@ class IconSettingModel with ChangeNotifier {
 
   Future<List<IconBean>> getLocalIconList() async {
     String json = await rootBundle.loadString('assets/json/icon_json.json');
-    return IconBean.fromMapList(jsonDecode(json));
+    _iconBeanList = IconBean.fromMapList(jsonDecode(json));
+    return _iconBeanList;
+  }
+
+  Future<bool> getAllIconList() async {
+    await getExpenseIconWithCache();
+    await getIncomeIconWithCache();
+    _initIconList = true;
+    return _initIconList;
   }
 
   refresh() {

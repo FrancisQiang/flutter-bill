@@ -9,6 +9,7 @@ class Routes {
   static String userPage = '/userPage';
   static String avatarPage = '/avatarPage';
   static String iconSettingPage = '/iconSettingPage';
+  static String addIconPage = '/addIconPage';
 
 
 
@@ -25,5 +26,6 @@ class Routes {
     router.define(userPage, handler: userPageHandler, transitionType: TransitionType.cupertino);
     router.define(avatarPage, handler: avatarPageHandler, transitionType: TransitionType.cupertino);
     router.define(iconSettingPage, handler: iconSettingPageHandler, transitionType: TransitionType.cupertino);
+    router.define(addIconPage, handler: addIconPageHandler, transitionType: TransitionType.cupertino);
   }
 }

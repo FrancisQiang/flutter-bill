@@ -42,6 +42,11 @@ var iconSettingPageHandler = Handler(
   },
 );
 
+var addIconPageHandler = Handler(
+  handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+    return ProviderUtil.getAddIconPage();
+  },
+);
 
 
 

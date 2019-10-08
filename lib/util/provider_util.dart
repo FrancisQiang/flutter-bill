@@ -8,6 +8,7 @@ import 'package:flutter_bill/model/theme_page_model.dart';
 import 'package:flutter_bill/model/words_wall_model.dart';
 import 'package:flutter_bill/page/bill_detail/bill_detail_page.dart';
 import 'package:flutter_bill/page/home/home_page.dart';
+import 'package:flutter_bill/page/icon/add_icon_page.dart';
 import 'package:flutter_bill/page/icon/icon_settting_page.dart';
 import 'package:flutter_bill/page/theme_page/theme_page.dart';
 import 'package:provider/provider.dart';
@@ -86,7 +87,6 @@ class ProviderUtil {
 
 
   static ChangeNotifierProvider<WordsWallModel> getWordsWallPage(Widget child) {
-//    _wordsWallModel.getComments();
     return ChangeNotifierProvider<WordsWallModel>.value(
       value: _wordsWallModel,
       child: child,
@@ -116,7 +116,12 @@ class ProviderUtil {
     );
   }
 
-
+  static ChangeNotifierProvider<IconSettingModel> getAddIconPage() {
+    return ChangeNotifierProvider<IconSettingModel>.value(
+      value: _iconSettingModel,
+      child: AddIconPage(),
+    );
+  }
 
 
 }

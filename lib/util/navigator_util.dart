@@ -28,4 +28,8 @@ class NavigatorUtil {
     Application.router.navigateTo(context, Routes.iconSettingPage);
   }
 
+  static void toAddIconPage(BuildContext context) {
+    Application.router.navigateTo(context, Routes.addIconPage);
+  }
+
 }
