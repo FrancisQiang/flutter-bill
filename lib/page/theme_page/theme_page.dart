@@ -133,7 +133,7 @@ class ThemePage extends StatelessWidget {
         alignment: Alignment.center,
         child: Text(
           themeBean.themeName,
-          style: TextStyle(color: Colors.white, fontSize: 25),
+          style: TextStyle(color: Colors.white, fontSize: 24, fontFamily: 'lobster', letterSpacing: 1.5),
         ),
         decoration: BoxDecoration(
             color: themeBean.themeType == MyTheme.darkTheme

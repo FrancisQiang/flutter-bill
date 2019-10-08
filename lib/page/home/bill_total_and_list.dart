@@ -41,7 +41,10 @@ class _BillTotalAndListState extends State<BillTotalAndList> {
     "hairdressing": 0xe87c,
     "red packet": 0xe269,
     "bonus": 0xe263,
-    "work": 0xe8f9
+    "work": 0xe8f9,
+    "business": 0xeb3f,
+    "appericate": 0xe8dc,
+    "borrow": 0xe7fc
   };
 
   @override

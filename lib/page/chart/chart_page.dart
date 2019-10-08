@@ -23,7 +23,8 @@ class ChartPageState extends State<ChartPage> {
 
   // 柱状图直线宽度
   final double _barWidth = 5;
-  final Map<String, int> _iconDataMap = {
+
+  Map<String, int> _iconDataMap = {
     "food": 0xe556,
     "game": 0xe338,
     "study": 0xe865,
@@ -32,7 +33,10 @@ class ChartPageState extends State<ChartPage> {
     "hairdressing": 0xe87c,
     "red packet": 0xe269,
     "bonus": 0xe263,
-    "work": 0xe8f9
+    "work": 0xe8f9,
+    "business": 0xeb3f,
+    "appericate": 0xe8dc,
+    "borrow": 0xe7fc
   };
 
   // 图表Widget的列表
