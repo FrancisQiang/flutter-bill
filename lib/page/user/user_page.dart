@@ -10,6 +10,7 @@ import 'package:flutter_bill/util/navigator_util.dart';
 import 'package:flutter_bill/util/permission_request_util.dart';
 import 'package:flutter_bill/util/provider_util.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class UserPage extends StatefulWidget {
@@ -19,7 +20,6 @@ class UserPage extends StatefulWidget {
 
 class _UserPageState extends State<UserPage>
     with SingleTickerProviderStateMixin {
-
   AnimationController controller;
   Animation animation;
   double scale;
@@ -27,14 +27,9 @@ class _UserPageState extends State<UserPage>
   @override
   initState() {
     super.initState();
-    if (ProviderUtil
-        .getBillModel()
-        .currentMonthBudget != null) {
-      scale = (ProviderUtil
-          .getBillModel()
-          .currentExpense / ProviderUtil
-          .getBillModel()
-          .currentMonthBudget);
+    if (ProviderUtil.getBillModel().currentMonthBudget != null) {
+      scale = (ProviderUtil.getBillModel().currentExpense /
+          ProviderUtil.getBillModel().currentMonthBudget);
       if (scale.isNegative) {
         scale = 0.0;
       }
@@ -50,9 +45,10 @@ class _UserPageState extends State<UserPage>
     });
   }
 
-  Widget _getBottomSheetButton({@required String content,
-    @required BuildContext context,
-    Function function}) {
+  Widget _getBottomSheetButton(
+      {@required String content,
+      @required BuildContext context,
+      Function function}) {
     return InkWell(
       onTap: function,
       child: Container(
@@ -64,9 +60,7 @@ class _UserPageState extends State<UserPage>
         child: Text(
           content,
           style: TextStyle(
-              color: Theme
-                  .of(context)
-                  .primaryColorDark,
+              color: Theme.of(context).primaryColorDark,
               fontSize: 22,
               letterSpacing: 0.5),
         ),
@@ -77,15 +71,10 @@ class _UserPageState extends State<UserPage>
   TextStyle _getTextStyleByBudget(double budget) {
     return budget == null
         ? TextStyle(
-        color: Colors.grey.withOpacity(0.8),
-        fontSize: 16,
-        fontFamily: 'lobster'
-    )
-        : TextStyle(
-        color: Colors.black87,
-        fontSize: 17,
-        fontFamily: 'lobster'
-    );
+            color: Colors.grey.withOpacity(0.8),
+            fontSize: 16,
+            fontFamily: 'lobster')
+        : TextStyle(color: Colors.black87, fontSize: 17, fontFamily: 'lobster');
   }
 
   _setBudget(BuildContext context, BillModel billModel) {
@@ -155,11 +144,10 @@ class _UserPageState extends State<UserPage>
                                 billModel.storageBudget();
                                 Navigator.pop(context);
                                 setState(() {
-                                  scale = (ProviderUtil
-                                      .getBillModel()
-                                      .currentExpense / ProviderUtil
-                                      .getBillModel()
-                                      .currentMonthBudget);
+                                  scale = (ProviderUtil.getBillModel()
+                                          .currentExpense /
+                                      ProviderUtil.getBillModel()
+                                          .currentMonthBudget);
                                   if (scale.isNegative) {
                                     scale = 0.0;
                                   }
@@ -186,6 +174,7 @@ class _UserPageState extends State<UserPage>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
+      resizeToAvoidBottomPadding: false,
       body: Column(
         children: <Widget>[
           Stack(
@@ -196,24 +185,14 @@ class _UserPageState extends State<UserPage>
                   height: ScreenUtil.getInstance().setHeight(700),
                   decoration: BoxDecoration(
                       gradient: LinearGradient(colors: [
-                        Theme
-                            .of(context)
-                            .primaryColor,
-                        Theme
-                            .of(context)
-                            .primaryColorDark,
-                        ColorUtil.getDark(Theme
-                            .of(context)
-                            .primaryColorDark),
-                        ColorUtil.getDark(Theme
-                            .of(context)
-                            .primaryColorDark,
-                            level: 40),
-                        ColorUtil.getDark(Theme
-                            .of(context)
-                            .primaryColorDark,
-                            level: 50),
-                      ])),
+                    Theme.of(context).primaryColor,
+                    Theme.of(context).primaryColorDark,
+                    ColorUtil.getDark(Theme.of(context).primaryColorDark),
+                    ColorUtil.getDark(Theme.of(context).primaryColorDark,
+                        level: 40),
+                    ColorUtil.getDark(Theme.of(context).primaryColorDark,
+                        level: 50),
+                  ])),
                 ),
               ),
               Positioned(
@@ -221,14 +200,13 @@ class _UserPageState extends State<UserPage>
                 top: ScreenUtil.getInstance().setHeight(100),
                 child: Container(
                     child: InkWell(
-                      onTap: () => Navigator.of(context).pop(),
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: ColorUtil.getWhiteOrGrey(
-                            ProviderUtil.getGlobal()),
-                        size: 30,
-                      ),
-                    )),
+                  onTap: () => Navigator.of(context).pop(),
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: ColorUtil.getWhiteOrGrey(ProviderUtil.getGlobal()),
+                    size: 30,
+                  ),
+                )),
               ),
               Positioned(
                 left: ScreenUtil.getInstance().setWidth(450),
@@ -331,9 +309,127 @@ class _UserPageState extends State<UserPage>
               ),
             ],
           ),
+          Container(
+            margin: EdgeInsets.only(
+              top: ScreenUtil.getInstance().setHeight(100),
+              left: ScreenUtil.getInstance().setWidth(40),
+              right: ScreenUtil.getInstance().setWidth(40),
+            ),
+            height: ScreenUtil.getInstance().setHeight(300),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Container(
+                  child: Column(
+                    children: <Widget>[
+                      Icon(FontAwesomeIcons.github, color: Theme.of(context).primaryColorDark, size: 32,),
+                      Container(
+                        margin: EdgeInsets.only(
+                          top: ScreenUtil.getInstance().setHeight(10)
+                        ),
+                        child: Text(
+                          'github',
+                          style: TextStyle(
+                            color: Colors.black87,
+                            fontFamily: 'lobster',
+                            fontSize: 15,
+                            letterSpacing: 2.5
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  child: Column(
+                    children: <Widget>[
+                      Icon(FontAwesomeIcons.java, color: Colors.pink, size: 32,),
+                      Container(
+                        margin: EdgeInsets.only(
+                            top: ScreenUtil.getInstance().setHeight(10)
+                        ),
+                        child: Text(
+                          'java',
+                          style: TextStyle(
+                              color: Colors.black87,
+                              fontFamily: 'lobster',
+                              fontSize: 15,
+                              letterSpacing: 2.5
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  child: Column(
+                    children: <Widget>[
+                      Icon(FontAwesomeIcons.angular, color: Colors.deepOrange, size: 32,),
+                      Container(
+                        margin: EdgeInsets.only(
+                            top: ScreenUtil.getInstance().setHeight(10)
+                        ),
+                        child: Text(
+                          'angular',
+                          style: TextStyle(
+                              color: Colors.black87,
+                              fontFamily: 'lobster',
+                              fontSize: 15,
+                              letterSpacing: 2.5
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  child: Column(
+                    children: <Widget>[
+                      Icon(FontAwesomeIcons.vuejs, color: Colors.green, size: 32,),
+                      Container(
+                        margin: EdgeInsets.only(
+                            top: ScreenUtil.getInstance().setHeight(10)
+                        ),
+                        child: Text(
+                          'vue',
+                          style: TextStyle(
+                              color: Colors.black87,
+                              fontFamily: 'lobster',
+                              fontSize: 15,
+                              letterSpacing: 2.5
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  child: Column(
+                    children: <Widget>[
+                      Icon(FontAwesomeIcons.react, color: Colors.blue, size: 32,),
+                      Container(
+                        margin: EdgeInsets.only(
+                            top: ScreenUtil.getInstance().setHeight(10)
+                        ),
+                        child: Text(
+                          'react',
+                          style: TextStyle(
+                              color: Colors.black87,
+                              fontFamily: 'lobster',
+                              fontSize: 15,
+                              letterSpacing: 2.5
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
           Card(
               margin: EdgeInsets.only(
-                top: ScreenUtil.getInstance().setHeight(250),
+                top: ScreenUtil.getInstance().setHeight(20),
                 left: ScreenUtil.getInstance().setWidth(40),
                 right: ScreenUtil.getInstance().setWidth(40),
               ),
@@ -345,8 +441,7 @@ class _UserPageState extends State<UserPage>
                   children: <Widget>[
                     Container(
                       margin: EdgeInsets.only(
-                        top: ScreenUtil.getInstance().setHeight(60)
-                      ),
+                          top: ScreenUtil.getInstance().setHeight(60)),
                       height: ScreenUtil.getInstance().setHeight(200),
                       child: Row(
                         children: <Widget>[
@@ -356,9 +451,7 @@ class _UserPageState extends State<UserPage>
                             alignment: Alignment.center,
                             height: ScreenUtil.getInstance().setHeight(150),
                             child: Text(
-                              'Total budget for ${DateTime
-                                  .now()
-                                  .month}',
+                              'Total budget for ${DateTime.now().month}',
                               style: TextStyle(
                                   color: Colors.black87,
                                   fontSize: 20,
@@ -371,8 +464,7 @@ class _UserPageState extends State<UserPage>
                               margin: EdgeInsets.all(
                                   ScreenUtil.getInstance().setWidth(30)),
                               alignment: Alignment.center,
-                              height: ScreenUtil.getInstance().setHeight(
-                                  150),
+                              height: ScreenUtil.getInstance().setHeight(150),
                               child: Consumer<BillModel>(
                                 builder: (context, billModel, child) {
                                   return GestureDetector(
@@ -384,16 +476,14 @@ class _UserPageState extends State<UserPage>
                                           ScreenUtil.getInstance()
                                               .setWidth(20)),
                                       decoration: BoxDecoration(
-                                          color: Theme
-                                              .of(context)
-                                              .primaryColor,
+                                          color: Theme.of(context).primaryColor,
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(15))),
                                       child: Text(
                                         '+ set budget ',
                                         style: TextStyle(
                                             color: Colors.black87,
-                                            fontSize: 18,
+                                            fontSize: 16,
                                             letterSpacing: 1.5,
                                             fontFamily: 'lobster'),
                                       ),
@@ -423,16 +513,14 @@ class _UserPageState extends State<UserPage>
                                       CustomPaint(
                                         painter: CircularCanvas(
                                             progress: animation.value,
-                                            backgroundColor: ColorUtil
-                                                .getLight(Theme
-                                                .of(context)
-                                                .primaryColorLight),
+                                            backgroundColor: ColorUtil.getLight(
+                                                Theme.of(context)
+                                                    .primaryColorLight),
                                             color: Colors.blueAccent),
-                                        size: Size(125, 125),
+                                        size: Size(120, 120),
                                       ),
                                       Text(
-                                        '${(animation.value / 360 * 100)
-                                            .round()}%',
+                                        '${(animation.value / 360 * 100).round()}%',
                                         style: TextStyle(
                                             color: Colors.pink,
                                             fontSize: 120 / 5,
@@ -444,7 +532,7 @@ class _UserPageState extends State<UserPage>
                                 Expanded(
                                   child: Container(
                                     height:
-                                    ScreenUtil.getInstance().setHeight(350),
+                                        ScreenUtil.getInstance().setHeight(350),
                                     margin: EdgeInsets.only(
                                         left: ScreenUtil.getInstance()
                                             .setWidth(100),
@@ -456,7 +544,7 @@ class _UserPageState extends State<UserPage>
                                           margin: const EdgeInsets.all(5),
                                           child: Row(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
+                                                MainAxisAlignment.spaceAround,
                                             children: <Widget>[
                                               Container(
                                                 child: Text(
@@ -468,12 +556,7 @@ class _UserPageState extends State<UserPage>
                                               ),
                                               Container(
                                                 child: Text(
-                                                  '${billModel
-                                                      .currentMonthBudget ==
-                                                      null ? 0.0 : billModel
-                                                      .currentMonthBudget -
-                                                      billModel
-                                                          .currentExpense}',
+                                                  '${billModel.currentMonthBudget == null ? 0.0 : billModel.currentMonthBudget - billModel.currentExpense}',
                                                   style: _getTextStyleByBudget(
                                                       billModel
                                                           .currentMonthBudget),
@@ -492,7 +575,7 @@ class _UserPageState extends State<UserPage>
                                           margin: const EdgeInsets.all(5),
                                           child: Row(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
+                                                MainAxisAlignment.spaceAround,
                                             children: <Widget>[
                                               Container(
                                                 child: Text(
@@ -504,9 +587,7 @@ class _UserPageState extends State<UserPage>
                                               ),
                                               Container(
                                                 child: Text(
-                                                  '${billModel
-                                                      .currentMonthBudget ??
-                                                      0.0}',
+                                                  '${billModel.currentMonthBudget ?? 0.0}',
                                                   style: _getTextStyleByBudget(
                                                       billModel
                                                           .currentMonthBudget),
@@ -519,7 +600,7 @@ class _UserPageState extends State<UserPage>
                                           margin: const EdgeInsets.all(5),
                                           child: Row(
                                             mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
+                                                MainAxisAlignment.spaceAround,
                                             children: <Widget>[
                                               Container(
                                                 child: Text(
@@ -531,10 +612,7 @@ class _UserPageState extends State<UserPage>
                                               ),
                                               Container(
                                                 child: Text(
-                                                  '${billModel
-                                                      .currentMonthBudget ==
-                                                      null ? 0.0 : billModel
-                                                      .currentExpense}',
+                                                  '${billModel.currentMonthBudget == null ? 0.0 : billModel.currentExpense}',
                                                   style: _getTextStyleByBudget(
                                                       billModel
                                                           .currentMonthBudget),
@@ -560,7 +638,4 @@ class _UserPageState extends State<UserPage>
       ),
     );
   }
-
-
 }
-
