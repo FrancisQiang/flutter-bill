@@ -316,7 +316,12 @@ class _BillDetailPageState extends State<BillDetailPage> {
                       setState(() {
                         _money = content;
                       });
-                    } else if (int.parse(_money) >= 99999) {
+                    } else if (_money.endsWith(".")) {
+                      setState(() {
+                        _money += content;
+                      });
+                      return;
+                    } else if (double.parse(_money) >= 99999) {
                       Fluttertoast.showToast(
                           msg: "Why are you so rich?",
                           toastLength: Toast.LENGTH_LONG,
