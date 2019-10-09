@@ -171,7 +171,7 @@ class _UserPageState extends State<UserPage> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white70.withOpacity(0.93),
+      backgroundColor: Colors.grey[200],
       body: Column(
         children: <Widget>[
           Stack(
@@ -509,9 +509,12 @@ class _UserPageState extends State<UserPage> with SingleTickerProviderStateMixin
                   ],
                 ),
               )),
+
         ],
       ),
     );
   }
+
+
 }
 
