@@ -13,6 +13,7 @@ import 'package:flutter_bill/util/shared_util.dart';
 import 'package:flutter_easyrefresh/bezier_bounce_footer.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:provider/provider.dart';
 
 class NetImageSettingPage extends StatefulWidget {
@@ -52,61 +53,70 @@ class _NetImageSettingPageState extends State<NetImageSettingPage> {
             onLoad: () async {
               loadMorePhoto();
             },
-            child: GridView.count(
-              crossAxisCount: 2,
-              children: List.generate(photoBeanList.length, (index) {
-                final url = photoBeanList[index].urls.regular;
-                final urls = photoBeanList.map((photoBean) => photoBean.urls.small).toList();
-                return InkWell(
-                  onTap: () {
-                    Navigator.of(context)
-                        .push(new CupertinoPageRoute(builder: (ctx) {
-                      return Consumer<GlobalModel>(
-                        builder: (context, globalModel, _) {
-                          return ImagePage(
-                            imageUrls: urls,
-                            initialPageIndex: index,
-                            onSelect: (current) async {
-                              final currentUrl = photoBeanList[current].urls.small;
-                              SharedUtil.instance.saveString(
-                                  SharedPreferencesKeys.CURRENT_NET_PICTURE_URL, currentUrl);
-                              SharedUtil.instance.saveBoolean(
-                                  SharedPreferencesKeys.IS_DAILY, false);
-                              globalModel.currentNetPicUrl = currentUrl;
-                              Navigator.of(context).pop();
+            child: AnimationLimiter(
+              child: GridView.count(
+                crossAxisCount: 2,
+                children: List.generate(photoBeanList.length, (index) {
+                  final url = photoBeanList[index].urls.regular;
+                  final urls = photoBeanList.map((photoBean) => photoBean.urls.small).toList();
+                  return AnimationConfiguration.staggeredGrid(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context)
+                            .push(new CupertinoPageRoute(builder: (ctx) {
+                          return Consumer<GlobalModel>(
+                            builder: (context, globalModel, _) {
+                              return ImagePage(
+                                imageUrls: urls,
+                                initialPageIndex: index,
+                                onSelect: (current) async {
+                                  final currentUrl = photoBeanList[current].urls.small;
+                                  SharedUtil.instance.saveString(
+                                      SharedPreferencesKeys.CURRENT_NET_PICTURE_URL, currentUrl);
+                                  SharedUtil.instance.saveBoolean(
+                                      SharedPreferencesKeys.IS_DAILY, false);
+                                  globalModel.currentNetPicUrl = currentUrl;
+                                  Navigator.of(context).pop();
+                                },
+                              );
                             },
                           );
-                        },
-                      );
-                    }));
-                  },
-                  child: Container(
-                    margin: EdgeInsets.all(10),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                      child: Hero(
-                        tag: "tag_$index",
-                        child: CachedNetworkImage(
-                          imageUrl: url,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => new Container(
-                            alignment: Alignment.center,
-                            child: SpinKitPumpingHeart(
-                              color: Theme.of(context).primaryColor,
-                              size: 60,
-                              duration: Duration(milliseconds: 2000),
+                        }));
+                      },
+                      child: ScaleAnimation(
+                        child: Container(
+                          margin: EdgeInsets.all(10),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                            child: Hero(
+                              tag: "tag_$index",
+                              child: CachedNetworkImage(
+                                imageUrl: url,
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) => new Container(
+                                  alignment: Alignment.center,
+                                  child: SpinKitPumpingHeart(
+                                    color: Theme.of(context).primaryColor,
+                                    size: 60,
+                                    duration: Duration(milliseconds: 2000),
+                                  ),
+                                ),
+                                errorWidget: (context, url, error) => new Icon(
+                                  Icons.error,
+                                  color: Colors.redAccent,
+                                ),
+                              ),
                             ),
-                          ),
-                          errorWidget: (context, url, error) => new Icon(
-                            Icons.error,
-                            color: Colors.redAccent,
                           ),
                         ),
                       ),
                     ),
-                  ),
-                );
-              }),
+                    position: index,
+                    duration: Duration(milliseconds: 500),
+                    columnCount: photoBeanList.length,
+                  );
+                }),
+              ),
             ),
           )
       ) : LoadingWidget(

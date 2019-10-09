@@ -17,7 +17,8 @@ class UserPage extends StatefulWidget {
   _UserPageState createState() => _UserPageState();
 }
 
-class _UserPageState extends State<UserPage> with SingleTickerProviderStateMixin {
+class _UserPageState extends State<UserPage>
+    with SingleTickerProviderStateMixin {
 
   AnimationController controller;
   Animation animation;
@@ -26,8 +27,14 @@ class _UserPageState extends State<UserPage> with SingleTickerProviderStateMixin
   @override
   initState() {
     super.initState();
-    if (ProviderUtil.getBillModel().currentMonthBudget != null) {
-      scale = (ProviderUtil.getBillModel().currentExpense / ProviderUtil.getBillModel().currentMonthBudget);
+    if (ProviderUtil
+        .getBillModel()
+        .currentMonthBudget != null) {
+      scale = (ProviderUtil
+          .getBillModel()
+          .currentExpense / ProviderUtil
+          .getBillModel()
+          .currentMonthBudget);
       if (scale.isNegative) {
         scale = 0.0;
       }
@@ -43,10 +50,9 @@ class _UserPageState extends State<UserPage> with SingleTickerProviderStateMixin
     });
   }
 
-  Widget _getBottomSheetButton(
-      {@required String content,
-        @required BuildContext context,
-        Function function}) {
+  Widget _getBottomSheetButton({@required String content,
+    @required BuildContext context,
+    Function function}) {
     return InkWell(
       onTap: function,
       child: Container(
@@ -58,7 +64,9 @@ class _UserPageState extends State<UserPage> with SingleTickerProviderStateMixin
         child: Text(
           content,
           style: TextStyle(
-              color: Theme.of(context).primaryColorDark,
+              color: Theme
+                  .of(context)
+                  .primaryColorDark,
               fontSize: 22,
               letterSpacing: 0.5),
         ),
@@ -69,14 +77,14 @@ class _UserPageState extends State<UserPage> with SingleTickerProviderStateMixin
   TextStyle _getTextStyleByBudget(double budget) {
     return budget == null
         ? TextStyle(
-      color: Colors.grey.withOpacity(0.8),
-      fontSize: 14,
-      fontFamily: 'lobster'
+        color: Colors.grey.withOpacity(0.8),
+        fontSize: 16,
+        fontFamily: 'lobster'
     )
         : TextStyle(
-      color: Colors.black87,
-      fontSize: 16,
-      fontFamily: 'lobster'
+        color: Colors.black87,
+        fontSize: 17,
+        fontFamily: 'lobster'
     );
   }
 
@@ -147,12 +155,18 @@ class _UserPageState extends State<UserPage> with SingleTickerProviderStateMixin
                                 billModel.storageBudget();
                                 Navigator.pop(context);
                                 setState(() {
-                                  scale = (ProviderUtil.getBillModel().currentExpense / ProviderUtil.getBillModel().currentMonthBudget);
+                                  scale = (ProviderUtil
+                                      .getBillModel()
+                                      .currentExpense / ProviderUtil
+                                      .getBillModel()
+                                      .currentMonthBudget);
                                   if (scale.isNegative) {
                                     scale = 0.0;
                                   }
                                   controller.forward(from: 0.0);
-                                  animation = Tween(begin: 0.0, end: 360 * scale).animate(controller);
+                                  animation =
+                                      Tween(begin: 0.0, end: 360 * scale)
+                                          .animate(controller);
                                 });
                               },
                             ),
@@ -182,12 +196,22 @@ class _UserPageState extends State<UserPage> with SingleTickerProviderStateMixin
                   height: ScreenUtil.getInstance().setHeight(700),
                   decoration: BoxDecoration(
                       gradient: LinearGradient(colors: [
-                        Theme.of(context).primaryColor,
-                        Theme.of(context).primaryColorDark,
-                        ColorUtil.getDark(Theme.of(context).primaryColorDark),
-                        ColorUtil.getDark(Theme.of(context).primaryColorDark,
+                        Theme
+                            .of(context)
+                            .primaryColor,
+                        Theme
+                            .of(context)
+                            .primaryColorDark,
+                        ColorUtil.getDark(Theme
+                            .of(context)
+                            .primaryColorDark),
+                        ColorUtil.getDark(Theme
+                            .of(context)
+                            .primaryColorDark,
                             level: 40),
-                        ColorUtil.getDark(Theme.of(context).primaryColorDark,
+                        ColorUtil.getDark(Theme
+                            .of(context)
+                            .primaryColorDark,
                             level: 50),
                       ])),
                 ),
@@ -200,7 +224,8 @@ class _UserPageState extends State<UserPage> with SingleTickerProviderStateMixin
                       onTap: () => Navigator.of(context).pop(),
                       child: Icon(
                         Icons.arrow_back,
-                        color: ColorUtil.getWhiteOrGrey(ProviderUtil.getGlobal()),
+                        color: ColorUtil.getWhiteOrGrey(
+                            ProviderUtil.getGlobal()),
                         size: 30,
                       ),
                     )),
@@ -308,17 +333,20 @@ class _UserPageState extends State<UserPage> with SingleTickerProviderStateMixin
           ),
           Card(
               margin: EdgeInsets.only(
-                top: ScreenUtil.getInstance().setHeight(100),
+                top: ScreenUtil.getInstance().setHeight(250),
                 left: ScreenUtil.getInstance().setWidth(40),
                 right: ScreenUtil.getInstance().setWidth(40),
               ),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10))),
               child: Container(
-                height: ScreenUtil.getInstance().setHeight(700),
+                height: ScreenUtil.getInstance().setHeight(1000),
                 child: Column(
                   children: <Widget>[
                     Container(
+                      margin: EdgeInsets.only(
+                        top: ScreenUtil.getInstance().setHeight(60)
+                      ),
                       height: ScreenUtil.getInstance().setHeight(200),
                       child: Row(
                         children: <Widget>[
@@ -328,10 +356,12 @@ class _UserPageState extends State<UserPage> with SingleTickerProviderStateMixin
                             alignment: Alignment.center,
                             height: ScreenUtil.getInstance().setHeight(150),
                             child: Text(
-                              'Total budget for ${DateTime.now().month}',
+                              'Total budget for ${DateTime
+                                  .now()
+                                  .month}',
                               style: TextStyle(
                                   color: Colors.black87,
-                                  fontSize: 18,
+                                  fontSize: 20,
                                   letterSpacing: 2.5,
                                   fontFamily: 'lobster'),
                             ),
@@ -341,7 +371,8 @@ class _UserPageState extends State<UserPage> with SingleTickerProviderStateMixin
                               margin: EdgeInsets.all(
                                   ScreenUtil.getInstance().setWidth(30)),
                               alignment: Alignment.center,
-                              height: ScreenUtil.getInstance().setHeight(150),
+                              height: ScreenUtil.getInstance().setHeight(
+                                  150),
                               child: Consumer<BillModel>(
                                 builder: (context, billModel, child) {
                                   return GestureDetector(
@@ -353,14 +384,16 @@ class _UserPageState extends State<UserPage> with SingleTickerProviderStateMixin
                                           ScreenUtil.getInstance()
                                               .setWidth(20)),
                                       decoration: BoxDecoration(
-                                          color: Theme.of(context).primaryColor,
+                                          color: Theme
+                                              .of(context)
+                                              .primaryColor,
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(15))),
                                       child: Text(
                                         '+ set budget ',
                                         style: TextStyle(
                                             color: Colors.black87,
-                                            fontSize: 12,
+                                            fontSize: 18,
                                             letterSpacing: 1.5,
                                             fontFamily: 'lobster'),
                                       ),
@@ -390,15 +423,19 @@ class _UserPageState extends State<UserPage> with SingleTickerProviderStateMixin
                                       CustomPaint(
                                         painter: CircularCanvas(
                                             progress: animation.value,
-                                            backgroundColor: ColorUtil.getLight(Theme.of(context).primaryColorLight),
+                                            backgroundColor: ColorUtil
+                                                .getLight(Theme
+                                                .of(context)
+                                                .primaryColorLight),
                                             color: Colors.blueAccent),
-                                        size: Size(80, 80),
+                                        size: Size(125, 125),
                                       ),
                                       Text(
-                                        '${(animation.value / 360 * 100).round()}%',
+                                        '${(animation.value / 360 * 100)
+                                            .round()}%',
                                         style: TextStyle(
                                             color: Colors.pink,
-                                            fontSize: 80 / 5,
+                                            fontSize: 120 / 5,
                                             fontWeight: FontWeight.bold),
                                       )
                                     ],
@@ -431,7 +468,12 @@ class _UserPageState extends State<UserPage> with SingleTickerProviderStateMixin
                                               ),
                                               Container(
                                                 child: Text(
-                                                  '${billModel.currentMonthBudget == null ? 0.0 : billModel.currentMonthBudget - billModel.currentExpense}',
+                                                  '${billModel
+                                                      .currentMonthBudget ==
+                                                      null ? 0.0 : billModel
+                                                      .currentMonthBudget -
+                                                      billModel
+                                                          .currentExpense}',
                                                   style: _getTextStyleByBudget(
                                                       billModel
                                                           .currentMonthBudget),
@@ -462,7 +504,9 @@ class _UserPageState extends State<UserPage> with SingleTickerProviderStateMixin
                                               ),
                                               Container(
                                                 child: Text(
-                                                  '${billModel.currentMonthBudget ?? 0.0}',
+                                                  '${billModel
+                                                      .currentMonthBudget ??
+                                                      0.0}',
                                                   style: _getTextStyleByBudget(
                                                       billModel
                                                           .currentMonthBudget),
@@ -487,7 +531,10 @@ class _UserPageState extends State<UserPage> with SingleTickerProviderStateMixin
                                               ),
                                               Container(
                                                 child: Text(
-                                                  '${billModel.currentMonthBudget == null ? 0.0 : billModel.currentExpense}',
+                                                  '${billModel
+                                                      .currentMonthBudget ==
+                                                      null ? 0.0 : billModel
+                                                      .currentExpense}',
                                                   style: _getTextStyleByBudget(
                                                       billModel
                                                           .currentMonthBudget),
@@ -509,7 +556,6 @@ class _UserPageState extends State<UserPage> with SingleTickerProviderStateMixin
                   ],
                 ),
               )),
-
         ],
       ),
     );

@@ -77,6 +77,8 @@ dependencies:
   flutter_spinkit: ^4.0.0
   # 动态底部导航
   curved_navigation_bar: ^0.3.1
+  # 舞台效果
+  flutter_staggered_animations: ^0.1.2
 
 dev_dependencies:
   flutter_test:
