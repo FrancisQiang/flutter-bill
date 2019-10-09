@@ -22,5 +22,7 @@ class SharedPreferencesKeys{
   static const String LOCAL_AVATAR_PATH = "local_avatar_path";
   /// 本地头像类型
   static const String CURRENT_AVATAR_TYPE = "current_avatar_type";
+  /// 本地icon和name的映射关系
+  static const String ICON_NAME_MAP = "icon_name_map";
 
 }

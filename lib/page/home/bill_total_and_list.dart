@@ -32,24 +32,17 @@ class _BillTotalAndListState extends State<BillTotalAndList> {
   List<BillBean> _billBeanList;
 
   // icon代数和icon名称的映射
-  Map<String, int> _iconDataMap = {
-    "food": 0xe556,
-    "game": 0xe338,
-    "study": 0xe865,
-    "gift": 0xe8f6,
-    "travel": 0xe613,
-    "hairdressing": 0xe87c,
-    "red packet": 0xe269,
-    "bonus": 0xe263,
-    "work": 0xe8f9,
-    "business": 0xeb3f,
-    "appericate": 0xe8dc,
-    "borrow": 0xe7fc
-  };
+  Map<String, int> _iconDataMap;
+
+  Future<Map<String, int>> _getIconMap() async {
+    _iconDataMap = await ProviderUtil.iconSettingModel.getIconMapFromDisk();
+    return _iconDataMap;
+  }
 
   @override
   void initState() {
     _initBillList();
+    _getIconMap();
     super.initState();
   }
 

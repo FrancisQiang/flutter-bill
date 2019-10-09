@@ -38,6 +38,24 @@ class AddIconPage extends StatelessWidget {
                   billIconBean.colorBean = ColorUtil.colorToColorBean(Theme.of(context).primaryColor);
                   billIconBean.name = iconSettingModel.choosingIconName;
                   billIconBean.type = iconSettingModel.choosingIconType ? 0 : 1;
+                  if (iconSettingModel.iconDataMap.containsKey(billIconBean.name)) {
+                    Fluttertoast.cancel();
+                    Fluttertoast.showToast(
+                      msg: "The name is exist",
+                      toastLength: Toast.LENGTH_LONG,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIos: 1,
+                      backgroundColor: Colors.grey[200],
+                      textColor: Colors.black87,
+                      fontSize: 16.0,
+                    );
+                    return;
+                  } else {
+                    iconSettingModel.iconDataMap.putIfAbsent(billIconBean.name, () {
+                      return iconBean.codePoint;
+                    });
+                    await iconSettingModel.storageIconMap();
+                  }
                   if (iconSettingModel.choosingIconType) {
                     iconSettingModel.expenseIconList.add(billIconBean);
                     await iconSettingModel.storageExpenseIconList();

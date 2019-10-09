@@ -4,6 +4,7 @@ import 'package:flutter_bill/bean/bill_bean.dart';
 import 'package:flutter_bill/config/my_const.dart';
 import 'package:flutter_bill/model/bill_model.dart';
 import 'package:flutter_bill/util/color_util.dart';
+import 'package:flutter_bill/util/provider_util.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:pie_chart/pie_chart.dart' as pie;
@@ -24,20 +25,12 @@ class ChartPageState extends State<ChartPage> {
   // 柱状图直线宽度
   final double _barWidth = 5;
 
-  Map<String, int> _iconDataMap = {
-    "food": 0xe556,
-    "game": 0xe338,
-    "study": 0xe865,
-    "gift": 0xe8f6,
-    "travel": 0xe613,
-    "hairdressing": 0xe87c,
-    "red packet": 0xe269,
-    "bonus": 0xe263,
-    "work": 0xe8f9,
-    "business": 0xeb3f,
-    "appericate": 0xe8dc,
-    "borrow": 0xe7fc
-  };
+  Map<String, int> _iconDataMap;
+
+  Future<Map<String, int>> _getIconMap() async {
+    _iconDataMap = await ProviderUtil.iconSettingModel.getIconMapFromDisk();
+    return _iconDataMap;
+  }
 
   // 图表Widget的列表
   List<Widget> _widgetChartList;
@@ -62,6 +55,7 @@ class ChartPageState extends State<ChartPage> {
 
   @override
   void initState() {
+    _getIconMap();
     super.initState();
   }
 
