@@ -43,6 +43,7 @@ class UserPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey,
       body: Column(
         children: <Widget>[
           Stack(
@@ -179,7 +180,7 @@ class UserPage extends StatelessWidget {
           ),
           Container(
               margin:
-                  EdgeInsets.only(top: ScreenUtil.getInstance().setHeight(40)),
+              EdgeInsets.only(top: ScreenUtil.getInstance().setHeight(40)),
               height: ScreenUtil.getInstance().setHeight(1600),
               child: ListView(
                 physics: BouncingScrollPhysics(),
