@@ -70,13 +70,14 @@ class IconSettingModel with ChangeNotifier {
   }
 
   Future<Null> storageIconMap() async {
-    await SharedUtil.instance.saveString(SharedPreferencesKeys.ICON_NAME_MAP, this._iconDataMap.toString());
+    await SharedUtil.instance.saveString(SharedPreferencesKeys.ICON_NAME_MAP, json.encode(this._iconDataMap));
   }
 
   Future<Map<String, int>> getIconMapFromDisk() async {
     String iconMapString = await SharedUtil.instance.getString(SharedPreferencesKeys.ICON_NAME_MAP);
+    debugPrint("==================================>" + iconMapString.toString());
     if (iconMapString != null && iconMapString.isNotEmpty) {
-      _iconDataMap = json.decode(iconMapString);
+      _iconDataMap =  Map<String, int>.from(json.decode(iconMapString));
     }
     return _iconDataMap;
   }
