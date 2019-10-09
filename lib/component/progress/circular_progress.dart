@@ -24,6 +24,7 @@ class _CircularProgress extends State<CircularProgress>
 
   @override
   void initState() {
+    super.initState();
     controller = new AnimationController(
         vsync: this, duration: const Duration(milliseconds: 3000));
     controller.forward(from: 0.0);
@@ -35,6 +36,7 @@ class _CircularProgress extends State<CircularProgress>
 
   @override
   Widget build(BuildContext context) {
+
     return new Stack(
       alignment: Alignment.center,
       children: <Widget>[

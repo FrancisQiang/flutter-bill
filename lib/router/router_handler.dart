@@ -26,7 +26,7 @@ var netImageSettingHandler = Handler(
 
 var userPageHandler = Handler(
   handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-    return ProviderUtil.getHomeModel(child: UserPage());
+    return ProviderUtil.getUserPage();
   },
 );
 

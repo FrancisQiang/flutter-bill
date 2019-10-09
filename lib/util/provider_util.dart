@@ -11,12 +11,11 @@ import 'package:flutter_bill/page/home/home_page.dart';
 import 'package:flutter_bill/page/icon/add_icon_page.dart';
 import 'package:flutter_bill/page/icon/icon_settting_page.dart';
 import 'package:flutter_bill/page/theme_page/theme_page.dart';
+import 'package:flutter_bill/page/user/user_page.dart';
 import 'package:provider/provider.dart';
 import '../main.dart';
 
-
 class ProviderUtil {
-
   static GlobalModel _globalModel = GlobalModel();
 
   static HomePageModel _homePageModel = HomePageModel();
@@ -54,6 +53,15 @@ class ProviderUtil {
     );
   }
 
+  static MultiProvider getUserPage() {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<HomePageModel>.value(value: _homePageModel),
+        ChangeNotifierProvider<BillModel>.value(value: _billModel),
+      ],
+      child: UserPage(),
+    );
+  }
 
   static ChangeNotifierProvider<GlobalModel> getGlobalModel({Widget child}) {
     return ChangeNotifierProvider<GlobalModel>.value(
@@ -85,14 +93,12 @@ class ProviderUtil {
     );
   }
 
-
   static ChangeNotifierProvider<WordsWallModel> getWordsWallPage(Widget child) {
     return ChangeNotifierProvider<WordsWallModel>.value(
       value: _wordsWallModel,
       child: child,
     );
   }
-
 
   static ChangeNotifierProvider<BillModel> getBillModelPage(Widget child) {
     return ChangeNotifierProvider<BillModel>.value(
@@ -102,10 +108,25 @@ class ProviderUtil {
   }
 
   // 获取bill详情页面
-  static ChangeNotifierProvider<BillModel> getBillDetailPage({int index, bool edit, BillBean billBean, Icon icon, String name, int type ,String heroTag}) {
+  static ChangeNotifierProvider<BillModel> getBillDetailPage(
+      {int index,
+      bool edit,
+      BillBean billBean,
+      Icon icon,
+      String name,
+      int type,
+      String heroTag}) {
     return ChangeNotifierProvider<BillModel>.value(
       value: _billModel,
-      child: BillDetailPage(index: index, edit: edit, billBean: billBean, icon: icon, name: name, type: type, heroTag: heroTag,),
+      child: BillDetailPage(
+        index: index,
+        edit: edit,
+        billBean: billBean,
+        icon: icon,
+        name: name,
+        type: type,
+        heroTag: heroTag,
+      ),
     );
   }
 
@@ -122,6 +143,4 @@ class ProviderUtil {
       child: AddIconPage(),
     );
   }
-
-
 }

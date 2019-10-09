@@ -24,5 +24,7 @@ class SharedPreferencesKeys{
   static const String CURRENT_AVATAR_TYPE = "current_avatar_type";
   /// 本地icon和name的映射关系
   static const String ICON_NAME_MAP = "icon_name_map";
+  /// 本地存储每月预算
+  static const String MONTH_BUDGET = "month_budget";
 
 }

@@ -205,6 +205,8 @@ class _BillTotalAndListState extends State<BillTotalAndList> {
         }
       }
     });
+    ProviderUtil.getBillModel().currentExpense = expense;
+    await ProviderUtil.getBillModel().getBudget();
     incomeExpenseBean = IncomeExpenseBean(income: income, expense: expense);
     return incomeExpenseBean;
   }
@@ -235,6 +237,8 @@ class _BillTotalAndListState extends State<BillTotalAndList> {
     setState(() {
       billBean = _billBeanList.removeAt(index);
       incomeExpenseBean = calculateMonthIncomeAndExpense(_billBeanList);
+      ProviderUtil.getBillModel().currentExpense = incomeExpenseBean.expense;
+      ProviderUtil.getBillModel().refresh();
     });
     Fluttertoast.showToast(
         msg: "delete success",
