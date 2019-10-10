@@ -1,5 +1,5 @@
 
-![title](http://118.89.103.234:8081/bill/md/title.jpg)
+![title](https://github.com/FrancisQiang/flutter-bill/blob/master/assets/md/title.jpg?raw=true)
 
 # Flutter Bill (使用FLutter开发的账单APP)
 
@@ -19,9 +19,9 @@
 
 ## 展示
 
-![title](http://118.89.103.234:8081/bill/md/总体.gif)  ![title](http://118.89.103.234:8081/bill/md/账单展示.gif)
+![title](https://github.com/FrancisQiang/flutter-bill/blob/master/assets/md/%E6%80%BB%E4%BD%93.gif?raw=true)  ![title](https://github.com/FrancisQiang/flutter-bill/blob/master/assets/md/%E8%B4%A6%E5%8D%95%E5%B1%95%E7%A4%BA.gif?raw=true)
 
-![title](http://118.89.103.234:8081/bill/md/设置展示.gif)  ![title](http://118.89.103.234:8081/bill/md/留言展示.gif)
+![title](https://github.com/FrancisQiang/flutter-bill/blob/master/assets/md/%E8%AE%BE%E7%BD%AE%E5%B1%95%E7%A4%BA.gif?raw=true)  ![title](https://github.com/FrancisQiang/flutter-bill/blob/master/assets/md/%E7%95%99%E8%A8%80%E5%B1%95%E7%A4%BA.gif?raw=true)
 
 ## 使用到的插件
 
@@ -116,7 +116,7 @@
 
 ## release下载
 
-![release下载](http://118.89.103.234:8081/bill/md/flutter_bill.jpg)
+![release下载](https://github.com/FrancisQiang/flutter-bill/blob/master/assets/md/flutter_bill.jpg?raw=true)
 
 ## 联系方式
 
@@ -124,4 +124,4 @@
 
   如果喜欢的话，那就给我一个star :star::star::star: 吧！！！ 谢谢！！
 
-![release下载](http://118.89.103.234:8081/bill/md/wechat.png)
+![release下载](https://github.com/FrancisQiang/flutter-bill/blob/master/assets/md/wechat.png?raw=true)
