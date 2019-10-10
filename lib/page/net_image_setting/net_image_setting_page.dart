@@ -55,6 +55,7 @@ class _NetImageSettingPageState extends State<NetImageSettingPage> {
             },
             child: GridView.count(
               crossAxisCount: 2,
+              childAspectRatio: 0.7,
               children: List.generate(photoBeanList.length, (index) {
                 final url = photoBeanList[index].urls.regular;
                 final urls = photoBeanList.map((photoBean) => photoBean.urls.small).toList();

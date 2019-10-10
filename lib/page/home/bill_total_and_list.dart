@@ -46,7 +46,6 @@ class _BillTotalAndListState extends State<BillTotalAndList> {
     super.initState();
   }
 
-
   Widget _getMonthBill() {
     if (_billBeanList == null) {
       return FutureBuilder<IncomeExpenseBean>(
@@ -271,6 +270,18 @@ class _BillTotalAndListState extends State<BillTotalAndList> {
                       if (snapshot.hasError)
                         return new Text('Error: ${snapshot.error}');
                       else {
+                        if (_billBeanList.isEmpty) {
+                          return Center(
+                            child: Text(
+                              'Let' 's go and keep an account!',
+                              style: TextStyle(
+                                  fontFamily: 'lobster',
+                                  fontSize: 20.0,
+                                  letterSpacing: 1.0,
+                                  color: Colors.white54),
+                            ),
+                          );
+                        }
                         return ListView.builder(
                           physics: BouncingScrollPhysics(),
                           itemBuilder: (context, index) {
@@ -293,6 +304,18 @@ class _BillTotalAndListState extends State<BillTotalAndList> {
             },
           ));
     } else {
+      if (_billBeanList.isEmpty) {
+        return Center(
+          child: Text(
+            'Let' 's go and keep an account!',
+            style: TextStyle(
+                fontFamily: 'lobster',
+                fontSize: 20.0,
+                letterSpacing: 1.0,
+                color: Colors.white54),
+          ),
+        );
+      }
       return Container(
           decoration: BoxDecoration(
             color: Colors.transparent,

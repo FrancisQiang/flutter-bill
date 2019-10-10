@@ -13,12 +13,15 @@ import 'package:flutter_bill/util/provider_util.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import 'icon_list.dart';
+
 class IconSettingPage extends StatefulWidget {
   @override
   _IconSettingPageState createState() => _IconSettingPageState();
 }
 
 class _IconSettingPageState extends State<IconSettingPage> {
+
   Future initIconList() async {
     await ProviderUtil.iconSettingModel.getAllIconList();
     setState(() {});
@@ -30,47 +33,6 @@ class _IconSettingPageState extends State<IconSettingPage> {
     initIconList();
   }
 
-  void editIconColor({ColorBean colorBean, int index, int type}) {
-    showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (ctx) {
-          return AlertDialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20.0))),
-              elevation: 0.0,
-              contentPadding: EdgeInsets.all(
-                ScreenUtil.getInstance().setWidth(30)
-              ),
-              title: Center(child: Text(
-                'Custom Color',
-                style: TextStyle(
-                  color: Colors.black87,
-                  fontSize: 28.0,
-                  letterSpacing: 1.5,
-                  fontFamily: 'lobster'
-                ),
-              ),),
-              content: CustomIconWidget(
-                onApplyTap: (color) async {
-                  ProviderUtil.iconSettingModel.currentChoosingColor = color;
-                  ColorBean localColorBean = ColorUtil.colorToColorBean(ProviderUtil.iconSettingModel.currentChoosingColor);
-                  if (type == MyConst.EXPEND) {
-                    ProviderUtil.iconSettingModel.expenseIconList[index].colorBean = localColorBean;
-                    ProviderUtil.iconSettingModel.refresh();
-                    await ProviderUtil.iconSettingModel.storageExpenseIconList();
-                  } else {
-                    ProviderUtil.iconSettingModel.incomeIconList[index].colorBean = localColorBean;
-                    ProviderUtil.iconSettingModel.refresh();
-                    await ProviderUtil.iconSettingModel.storageIncomeIconList();
-                  }
-                },
-                pickerColor: colorBean == null
-                    ? ProviderUtil.iconSettingModel.currentChoosingColor
-                    : ColorUtil.colorBeanToColor(colorBean),
-              ));
-        });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,214 +83,11 @@ class _IconSettingPageState extends State<IconSettingPage> {
                         height: ScreenUtil.getInstance().setHeight(1750),
                         child: TabBarView(
                           children: <Widget>[
-                            ListView.separated(
-                              separatorBuilder: (context, index) {
-                                return Container(
-                                  width:
-                                      ScreenUtil.getInstance().setWidth(1080),
-                                  height: ScreenUtil.getInstance().setHeight(1),
-                                  color: Colors.black54,
-                                );
-                              },
-                              itemCount:
-                                  iconSettingModel.expenseIconList.length,
-                              itemBuilder: (context, index) {
-                                BillIconBean billIconBean =
-                                    iconSettingModel.expenseIconList[index];
-                                return Container(
-                                  height:
-                                      ScreenUtil.getInstance().setHeight(180),
-                                  margin: EdgeInsets.symmetric(
-                                      vertical: ScreenUtil.getInstance()
-                                          .setHeight(40)),
-                                  child: Row(
-                                    children: <Widget>[
-                                      GestureDetector(
-                                        child: Container(
-                                          margin: EdgeInsets.only(
-                                              left: ScreenUtil.getInstance()
-                                                  .setWidth(30),
-                                              right: ScreenUtil.getInstance()
-                                                  .setWidth(45)),
-                                          child: Icon(
-                                            Icons.color_lens,
-                                            color: Colors.grey[400],
-                                          ),
-                                        ),
-                                        onTap: () {
-
-                                        },
-                                      ),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            color: Colors.grey[300]
-                                                .withOpacity(0.5),
-                                            shape: BoxShape.circle),
-                                        margin: EdgeInsets.only(
-                                            left: ScreenUtil.getInstance()
-                                                .setWidth(10)),
-                                        width: ScreenUtil.getInstance()
-                                            .setWidth(120),
-                                        height: ScreenUtil.getInstance()
-                                            .setWidth(120),
-                                        child: Icon(
-                                          IconBean.fromBean(
-                                              billIconBean.iconBean),
-                                          color: ColorUtil.colorBeanToColor(
-                                              billIconBean.colorBean),
-                                        ),
-                                      ),
-                                      Container(
-                                        width: ScreenUtil.getInstance()
-                                            .setWidth(500),
-                                        margin: EdgeInsets.only(
-                                            left: ScreenUtil.getInstance()
-                                                .setWidth(50)),
-                                        child: Text(
-                                          billIconBean.name,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 18.0,
-                                              letterSpacing: 0.5),
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          iconSettingModel.expenseIconList
-                                              .removeAt(index);
-                                          iconSettingModel
-                                              .storageExpenseIconList();
-                                          iconSettingModel.refresh();
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              color: Colors.red[400],
-                                              shape: BoxShape.circle),
-                                          margin: EdgeInsets.only(
-                                              left: ScreenUtil.getInstance()
-                                                  .setWidth(150)),
-                                          width: ScreenUtil.getInstance()
-                                              .setWidth(60),
-                                          height: ScreenUtil.getInstance()
-                                              .setWidth(60),
-                                          child: Icon(
-                                            CupertinoIcons.clear_thick,
-                                            color: Colors.white,
-                                            size: 18,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                              physics: BouncingScrollPhysics(),
+                            IconList(
+                              type: MyConst.EXPEND,
                             ),
-                            ListView.separated(
-                              separatorBuilder: (context, index) {
-                                return Container(
-                                  width:
-                                      ScreenUtil.getInstance().setWidth(1080),
-                                  height: ScreenUtil.getInstance().setHeight(1),
-                                  color: Colors.black54,
-                                );
-                              },
-                              itemCount: iconSettingModel.incomeIconList.length,
-                              itemBuilder: (context, index) {
-                                BillIconBean billIconBean =
-                                    iconSettingModel.incomeIconList[index];
-                                return Container(
-                                  height:
-                                      ScreenUtil.getInstance().setHeight(180),
-                                  margin: EdgeInsets.symmetric(
-                                      vertical: ScreenUtil.getInstance()
-                                          .setHeight(40)),
-                                  child: Row(
-                                    children: <Widget>[
-                                      GestureDetector(
-                                        child: Container(
-                                          margin: EdgeInsets.only(
-                                              left: ScreenUtil.getInstance()
-                                                  .setWidth(30),
-                                              right: ScreenUtil.getInstance()
-                                                  .setWidth(45)),
-                                          child: Icon(
-                                            Icons.color_lens,
-                                            color: Colors.grey[400],
-                                          ),
-                                        ),
-                                        onTap: () {
-                                          editIconColor(
-                                            colorBean: iconSettingModel.incomeIconList[index].colorBean,
-                                            index: index,
-                                            type: MyConst.INCOME
-                                          );
-                                        },
-                                      ),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            color: Colors.grey[300]
-                                                .withOpacity(0.5),
-                                            shape: BoxShape.circle),
-                                        margin: EdgeInsets.only(
-                                            left: ScreenUtil.getInstance()
-                                                .setWidth(10)),
-                                        width: ScreenUtil.getInstance()
-                                            .setWidth(120),
-                                        height: ScreenUtil.getInstance()
-                                            .setWidth(120),
-                                        child: Icon(
-                                          IconBean.fromBean(
-                                              billIconBean.iconBean),
-                                          color: ColorUtil.colorBeanToColor(
-                                              billIconBean.colorBean),
-                                        ),
-                                      ),
-                                      Container(
-                                        width: ScreenUtil.getInstance()
-                                            .setWidth(500),
-                                        margin: EdgeInsets.only(
-                                            left: ScreenUtil.getInstance()
-                                                .setWidth(50)),
-                                        child: Text(
-                                          billIconBean.name,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 18.0,
-                                              letterSpacing: 0.5),
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          iconSettingModel.incomeIconList
-                                              .removeAt(index);
-                                          iconSettingModel
-                                              .storageIncomeIconList();
-                                          iconSettingModel.refresh();
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              color: Colors.red[400],
-                                              shape: BoxShape.circle),
-                                          margin: EdgeInsets.only(
-                                              left: ScreenUtil.getInstance()
-                                                  .setWidth(150)),
-                                          width: ScreenUtil.getInstance()
-                                              .setWidth(60),
-                                          height: ScreenUtil.getInstance()
-                                              .setWidth(60),
-                                          child: Icon(
-                                            CupertinoIcons.clear_thick,
-                                            color: Colors.white,
-                                            size: 18,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                              physics: BouncingScrollPhysics(),
+                            IconList(
+                              type: MyConst.INCOME,
                             ),
                           ],
                         ),
