@@ -5,6 +5,8 @@ import 'package:flutter_bill/component/progress/circular_progress.dart';
 import 'package:flutter_bill/config/my_const.dart';
 import 'package:flutter_bill/model/bill_model.dart';
 import 'package:flutter_bill/model/home_page_model.dart';
+import 'package:flutter_bill/page/user/user_page_icon.dart';
+import 'package:flutter_bill/page/user/user_page_top.dart';
 import 'package:flutter_bill/util/color_util.dart';
 import 'package:flutter_bill/util/navigator_util.dart';
 import 'package:flutter_bill/util/permission_request_util.dart';
@@ -20,9 +22,11 @@ class UserPage extends StatefulWidget {
 
 class _UserPageState extends State<UserPage>
     with SingleTickerProviderStateMixin {
+
   AnimationController controller;
   Animation animation;
   double scale;
+  TextEditingController budgetController;
 
   @override
   initState() {
@@ -40,32 +44,11 @@ class _UserPageState extends State<UserPage>
         vsync: this, duration: const Duration(milliseconds: 2500));
     controller.forward(from: 0.0);
     animation = Tween(begin: 0.0, end: 360 * scale).animate(controller);
+
     controller.addListener(() {
       setState(() {});
     });
-  }
-
-  Widget _getBottomSheetButton(
-      {@required String content,
-      @required BuildContext context,
-      Function function}) {
-    return InkWell(
-      onTap: function,
-      child: Container(
-        alignment: Alignment.center,
-        width: ScreenUtil.getInstance().setWidth(1080),
-        height: ScreenUtil.getInstance().setHeight(200),
-        decoration: BoxDecoration(
-            border: Border(bottom: BorderSide(color: Colors.grey, width: 0.5))),
-        child: Text(
-          content,
-          style: TextStyle(
-              color: Theme.of(context).primaryColorDark,
-              fontSize: 22,
-              letterSpacing: 0.5),
-        ),
-      ),
-    );
+    budgetController = TextEditingController();
   }
 
   TextStyle _getTextStyleByBudget(double budget) {
@@ -81,7 +64,6 @@ class _UserPageState extends State<UserPage>
     showDialog(
         context: context,
         builder: (context) {
-          TextEditingController budgetController = TextEditingController();
           return Center(
             child: Card(
               shape: RoundedRectangleBorder(
@@ -177,138 +159,7 @@ class _UserPageState extends State<UserPage>
       resizeToAvoidBottomPadding: false,
       body: Column(
         children: <Widget>[
-          Stack(
-            children: <Widget>[
-              ClipPath(
-                clipper: ItalicClipper(),
-                child: Container(
-                  height: ScreenUtil.getInstance().setHeight(700),
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: [
-                    Theme.of(context).primaryColor,
-                    Theme.of(context).primaryColorDark,
-                    ColorUtil.getDark(Theme.of(context).primaryColorDark),
-                    ColorUtil.getDark(Theme.of(context).primaryColorDark,
-                        level: 40),
-                    ColorUtil.getDark(Theme.of(context).primaryColorDark,
-                        level: 50),
-                  ])),
-                ),
-              ),
-              Positioned(
-                left: ScreenUtil.getInstance().setWidth(20),
-                top: ScreenUtil.getInstance().setHeight(100),
-                child: Container(
-                    child: InkWell(
-                  onTap: () => Navigator.of(context).pop(),
-                  child: Icon(
-                    Icons.arrow_back,
-                    color: ColorUtil.getWhiteOrGrey(ProviderUtil.getGlobal()),
-                    size: 30,
-                  ),
-                )),
-              ),
-              Positioned(
-                left: ScreenUtil.getInstance().setWidth(450),
-                top: ScreenUtil.getInstance().setHeight(30),
-                child: Container(
-                  child: Text(
-                    'User',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 32.0,
-                        fontWeight: FontWeight.w500,
-                        fontFamily: 'lobster',
-                        letterSpacing: 3.3),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                  ),
-                ),
-              ),
-              Consumer<HomePageModel>(
-                builder: (context, homePageModel, child) {
-                  return Positioned(
-                    left: ScreenUtil.getInstance().setWidth(80),
-                    bottom: ScreenUtil.getInstance().setHeight(150),
-                    child: Container(
-                      child: Text(
-                        homePageModel.currentUserName,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 32.0,
-                            fontWeight: FontWeight.w500,
-                            fontFamily: 'lobster',
-                            letterSpacing: 3.3),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                    ),
-                  );
-                },
-              ),
-              Consumer<HomePageModel>(
-                builder: (context, homePageModel, child) {
-                  return Positioned(
-                      right: ScreenUtil.getInstance().setWidth(50),
-                      top: ScreenUtil.getInstance().setHeight(350),
-                      child: InkWell(
-                        onTap: () {
-                          showModalBottomSheet(
-                            context: context,
-                            builder: (context) {
-                              return Container(
-                                width: ScreenUtil.getInstance().setWidth(1080),
-                                height: ScreenUtil.getInstance().setHeight(400),
-                                child: Column(
-                                  children: <Widget>[
-                                    _getBottomSheetButton(
-                                      content: 'Change From Album',
-                                      function: () {
-                                        PermissionReqUtil.getInstance()
-                                            .requestPermission(
-                                          PermissionGroup.photos,
-                                          granted: homePageModel.getImage,
-                                          deniedDes: 'Deny',
-                                          context: context,
-                                          openSetting: 'Allow',
-                                        );
-                                      },
-                                      context: context,
-                                    ),
-                                    _getBottomSheetButton(
-                                      content: 'Just Edit Now',
-                                      function: () {
-                                        Navigator.pop(context);
-                                        NavigatorUtil.toAvatarPage(context);
-                                      },
-                                      context: context,
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          );
-                        },
-                        child: Hero(
-                          tag: MyConst.AVATAR_HERO_TAG,
-                          child: Container(
-                            height: ScreenUtil.getInstance().setWidth(300),
-                            width: ScreenUtil.getInstance().setWidth(300),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                image: homePageModel.getAvatarWidget(),
-                              ),
-                              border: Border.all(
-                                  color: Colors.grey[200], width: 3.3),
-                            ),
-                          ),
-                        ),
-                      ));
-                },
-              ),
-            ],
-          ),
+          UserPageTop(),
           Container(
             margin: EdgeInsets.only(
               top: ScreenUtil.getInstance().setHeight(100),
@@ -319,110 +170,35 @@ class _UserPageState extends State<UserPage>
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                Container(
-                  child: Column(
-                    children: <Widget>[
-                      Icon(FontAwesomeIcons.github, color: Theme.of(context).primaryColorDark, size: 32,),
-                      Container(
-                        margin: EdgeInsets.only(
-                          top: ScreenUtil.getInstance().setHeight(10)
-                        ),
-                        child: Text(
-                          'github',
-                          style: TextStyle(
-                            color: Colors.black87,
-                            fontFamily: 'lobster',
-                            fontSize: 15,
-                            letterSpacing: 2.5
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                UserPageIcon(
+                  iconData: FontAwesomeIcons.github,
+                  color: Colors.indigoAccent,
+                  size: 34,
+                  name: 'github',
                 ),
-                Container(
-                  child: Column(
-                    children: <Widget>[
-                      Icon(FontAwesomeIcons.java, color: Colors.pink, size: 32,),
-                      Container(
-                        margin: EdgeInsets.only(
-                            top: ScreenUtil.getInstance().setHeight(10)
-                        ),
-                        child: Text(
-                          'java',
-                          style: TextStyle(
-                              color: Colors.black87,
-                              fontFamily: 'lobster',
-                              fontSize: 15,
-                              letterSpacing: 2.5
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                UserPageIcon(
+                  iconData: FontAwesomeIcons.java,
+                  color: Colors.pink,
+                  size: 34,
+                  name: 'java',
                 ),
-                Container(
-                  child: Column(
-                    children: <Widget>[
-                      Icon(FontAwesomeIcons.angular, color: Colors.deepOrange, size: 32,),
-                      Container(
-                        margin: EdgeInsets.only(
-                            top: ScreenUtil.getInstance().setHeight(10)
-                        ),
-                        child: Text(
-                          'angular',
-                          style: TextStyle(
-                              color: Colors.black87,
-                              fontFamily: 'lobster',
-                              fontSize: 15,
-                              letterSpacing: 2.5
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                UserPageIcon(
+                  iconData: FontAwesomeIcons.angular,
+                  color: Colors.deepOrange,
+                  size: 34,
+                  name: 'angular',
                 ),
-                Container(
-                  child: Column(
-                    children: <Widget>[
-                      Icon(FontAwesomeIcons.vuejs, color: Colors.green, size: 32,),
-                      Container(
-                        margin: EdgeInsets.only(
-                            top: ScreenUtil.getInstance().setHeight(10)
-                        ),
-                        child: Text(
-                          'vue',
-                          style: TextStyle(
-                              color: Colors.black87,
-                              fontFamily: 'lobster',
-                              fontSize: 15,
-                              letterSpacing: 2.5
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                UserPageIcon(
+                  iconData: FontAwesomeIcons.vuejs,
+                  color: Colors.green,
+                  size: 34,
+                  name: 'vue',
                 ),
-                Container(
-                  child: Column(
-                    children: <Widget>[
-                      Icon(FontAwesomeIcons.react, color: Colors.blue, size: 32,),
-                      Container(
-                        margin: EdgeInsets.only(
-                            top: ScreenUtil.getInstance().setHeight(10)
-                        ),
-                        child: Text(
-                          'react',
-                          style: TextStyle(
-                              color: Colors.black87,
-                              fontFamily: 'lobster',
-                              fontSize: 15,
-                              letterSpacing: 2.5
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                UserPageIcon(
+                  iconData: FontAwesomeIcons.react,
+                  color: Colors.blue,
+                  size: 34,
+                  name: 'react',
                 ),
               ],
             ),
@@ -474,7 +250,7 @@ class _UserPageState extends State<UserPage>
                                     child: Container(
                                       padding: EdgeInsets.all(
                                           ScreenUtil.getInstance()
-                                              .setWidth(20)),
+                                              .setWidth(15)),
                                       decoration: BoxDecoration(
                                           color: Theme.of(context).primaryColor,
                                           borderRadius: BorderRadius.all(
@@ -483,7 +259,7 @@ class _UserPageState extends State<UserPage>
                                         '+ set budget ',
                                         style: TextStyle(
                                             color: Colors.black87,
-                                            fontSize: 16,
+                                            fontSize: 14,
                                             letterSpacing: 1.5,
                                             fontFamily: 'lobster'),
                                       ),
