@@ -332,7 +332,9 @@ class _UserPageState extends State<UserPage>
                                               ),
                                               Container(
                                                 child: Text(
-                                                  '${billModel.currentMonthBudget == null ? 0.0 : billModel.currentMonthBudget - billModel.currentExpense}',
+                                                  '${billModel.currentMonthBudget == null
+                                                      ? 0.0
+                                                    : (billModel.currentMonthBudget - billModel.currentExpense).toStringAsFixed(2)}',
                                                   style: _getTextStyleByBudget(
                                                       billModel
                                                           .currentMonthBudget),
@@ -363,7 +365,8 @@ class _UserPageState extends State<UserPage>
                                               ),
                                               Container(
                                                 child: Text(
-                                                  '${billModel.currentMonthBudget ?? 0.0}',
+                                                  '${billModel.currentMonthBudget == null ? 0.0
+                                                  : billModel.currentMonthBudget.toStringAsFixed(2)}',
                                                   style: _getTextStyleByBudget(
                                                       billModel
                                                           .currentMonthBudget),
@@ -388,7 +391,7 @@ class _UserPageState extends State<UserPage>
                                               ),
                                               Container(
                                                 child: Text(
-                                                  '${billModel.currentMonthBudget == null ? 0.0 : billModel.currentExpense}',
+                                                  '${billModel.currentMonthBudget == null ? 0.0 : billModel.currentExpense.toStringAsFixed(2)}',
                                                   style: _getTextStyleByBudget(
                                                       billModel
                                                           .currentMonthBudget),
