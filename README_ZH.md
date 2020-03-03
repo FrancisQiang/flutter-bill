@@ -1,8 +1,6 @@
 ![title](https://github.com/FrancisQiang/flutter-bill/blob/master/assets/md/title.jpg?raw=true)
 
-
-
-Language:[简体中文](https://github.com/FrancisQiang/flutter-bill/README_ZH.md)|[English](https://github.com/FrancisQiang/flutter-bill/README.md)
+Language:[简体中文](https://github.com/FrancisQiang/flutter-bill/blob/master/README_ZH.md)|[English](https://github.com/FrancisQiang/flutter-bill/blob/master/README.md)
 
 [![support](https://img.shields.io/badge/platform-flutter%7Cdart%20vm-ff69b4.svg?style=flat-square)](https://github.com/asjqkkkk/todo-list-app)
 [![GitHub license](https://img.shields.io/github/license/FrancisQiang/flutter-bill)](https://github.com/FrancisQiang/flutter-bill/blob/master/LICENSE)
