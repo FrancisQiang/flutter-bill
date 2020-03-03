@@ -1,5 +1,12 @@
-
 ![title](https://github.com/FrancisQiang/flutter-bill/blob/master/assets/md/title.jpg?raw=true)
+
+
+
+Language:[简体中文](https://github.com/FrancisQiang/flutter-bill/README_ZH.md)|[English](https://github.com/FrancisQiang/flutter-bill/README.md)
+
+[![support](https://img.shields.io/badge/platform-flutter%7Cdart%20vm-ff69b4.svg?style=flat-square)](https://github.com/asjqkkkk/todo-list-app)
+[![GitHub license](https://img.shields.io/github/license/FrancisQiang/flutter-bill)](https://github.com/FrancisQiang/flutter-bill/blob/master/LICENSE)
+[![apkdownload](https://img.shields.io/badge/download-apk-brightgreen)](https://github.com/FrancisQiang/flutter-bill/releases/download/v1.0.0/apk-release.apk)
 
 # Flutter Bill (使用FLutter开发的账单APP)
 
